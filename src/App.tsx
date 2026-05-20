@@ -5,7 +5,7 @@ import Footer from "./components/layout/Footer";
 import { AppRoutes } from "./routes";
 import { bgIcons } from "./assets/bg-icons";
 
-type Page = "home" | "gallery" | "detail";
+type Page = "home" | "gallery" | "detail" | "developer";
 
 type IconPlacement = {
   svg: string;
@@ -74,7 +74,9 @@ const AppLayout: React.FC = () => {
         ? "gallery"
         : location.pathname.startsWith("/projects/")
           ? "detail"
-          : "home";
+          : location.pathname === "/developer"
+            ? "developer"
+            : "home";
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
@@ -82,6 +84,7 @@ const AppLayout: React.FC = () => {
 
   const goHome = () => navigate("/");
   const goGallery = () => navigate("/projects");
+  const goDeveloper = () => navigate("/developer");
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[radial-gradient(circle_at_top_left,rgba(249,220,231,0.24),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(229,206,255,0.24),transparent_30%),#fff7f8] text-foreground select-text">
@@ -90,6 +93,7 @@ const AppLayout: React.FC = () => {
         currentPage={currentPage}
         onGoHome={goHome}
         onGoGallery={goGallery}
+        onGoDeveloper={goDeveloper}
       />
       <main className="relative flex-1 overflow-hidden">
         <AppRoutes />

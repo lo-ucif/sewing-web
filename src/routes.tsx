@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import GalleryPage from "./pages/GalleryPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
+import DeveloperContact from "./pages/DeveloperContact";
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/" element={<Home />} />
       <Route path="/projects" element={<GalleryPage />} />
       <Route path="/projects/:id" element={<ProjectDetailPage />} />
+      <Route path="/developer" element={<DeveloperContact />} />
       <Route path="/categories" element={<Home />} />
       <Route path="/about" element={<Home />} />
       <Route path="/contact" element={<Home />} />

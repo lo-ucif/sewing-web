@@ -2,12 +2,13 @@
 import { Menu, X } from "lucide-react";
 import { useScroll } from "../../hooks/useScroll";
 
-type Page = "home" | "gallery" | "detail";
+type Page = "home" | "gallery" | "detail" | "developer";
 
 interface NavbarProps {
   currentPage: Page;
   onGoHome: () => void;
   onGoGallery: () => void;
+  onGoDeveloper?: () => void;
 }
 
 const NeedleLogo = ({ className }: { className?: string }) => (
@@ -72,6 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentPage,
   onGoHome,
   onGoGallery,
+  onGoDeveloper,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { scrolled } = useScroll(20);
@@ -116,9 +118,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               onGoGallery();
               closeMenu();
             }}
-            className={`text-sm font-sans transition-colors ${currentPage !== "home" ? "text-[#b76487]" : "text-[#6d4d5f] hover:text-[#b76487]"}`}
+            className={`text-sm font-sans transition-colors ${currentPage === "gallery" ? "text-[#b76487]" : "text-[#6d4d5f] hover:text-[#b76487]"}`}
           >
             معرض الأعمال
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onGoDeveloper?.();
+              closeMenu();
+            }}
+            className={`text-sm font-sans transition-colors ${currentPage === "developer" ? "text-[#b76487]" : "text-[#6d4d5f] hover:text-[#b76487]"}`}
+          >
+            تواصل مع المطوّر
           </button>
         </div>
       </div>
@@ -170,6 +182,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="block w-full text-right text-base font-sans text-[#5e4152] transition-colors hover:text-[#b76487]"
           >
             معرض الأعمال
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onGoDeveloper?.();
+              closeMenu();
+            }}
+            className="block w-full text-right text-base font-sans text-[#5e4152] transition-colors hover:text-[#b76487]"
+          >
+            تواصل مع المطوّر
           </button>
         </div>
       </div>
