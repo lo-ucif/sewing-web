@@ -67,7 +67,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
   return (
     <div dir="rtl" className="pb-12 pt-24">
       <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-8 lg:px-10">
-        <div key={activeCategory} ref={gridRef} className="animate-[fadeIn_.3s_ease]" style={{ animationFillMode: 'both' }}>
+        <h1 className="mb-6 text-right text-2xl font-semibold text-[#3d2734]">معرض الأعمال</h1>\n        <div key={activeCategory} ref={gridRef} className="animate-[fadeIn_.3s_ease]" style={{ animationFillMode: 'both' }}>
           {filteredProjects.length === 0 ? (
             <p className="py-20 text-center text-lg text-[#7d5a70]">لا توجد أعمال في هذا التصنيف حالياً 🧵</p>
           ) : (
@@ -116,3 +116,4 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
 };
 
 export default GalleryPage;
+

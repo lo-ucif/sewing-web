@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
@@ -10,6 +10,7 @@ type Page = "home" | "gallery" | "detail";
 export const App: React.FC = () => {
   const [page, setPage] = useState<Page>("home");
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const isPoppingRef = useRef(false);
 
   const goDetail = (id: number) => {
     setSelectedId(id);
@@ -19,6 +20,41 @@ export const App: React.FC = () => {
   const goGallery = () => setPage("gallery");
   const goHome = () => setPage("home");
   const goBack = () => setPage("gallery");
+
+  useEffect(() => {
+    window.history.replaceState({ page: "home", selectedId: null }, "");
+
+    const onPopState = (event: PopStateEvent) => {
+      const state = event.state as { page?: Page; selectedId?: number | null } | null;
+      isPoppingRef.current = true;
+
+      if (state?.page === "detail" && typeof state.selectedId === "number") {
+        setSelectedId(state.selectedId);
+        setPage("detail");
+        return;
+      }
+
+      if (state?.page === "gallery") {
+        setPage("gallery");
+        return;
+      }
+
+      setSelectedId(null);
+      setPage("home");
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  useEffect(() => {
+    if (isPoppingRef.current) {
+      isPoppingRef.current = false;
+      return;
+    }
+
+    window.history.pushState({ page, selectedId }, "");
+  }, [page, selectedId]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -32,12 +68,9 @@ export const App: React.FC = () => {
         {page === "gallery" && <GalleryPage onGoDetail={goDetail} />}
         {page === "detail" && selectedId !== null && <ProjectDetailPage projectId={selectedId} onGoBack={goBack} />}
       </main>
-      
+
       <Footer />
     </div>
   );
 };
 export default App;
-
-
-

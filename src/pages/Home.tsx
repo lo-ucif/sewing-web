@@ -1,4 +1,5 @@
 ﻿import React, { useEffect } from 'react';
+import { projects as galleryProjects } from '../data/projects';
 
 interface HomeProps {
   onGoGallery?: () => void;
@@ -24,15 +25,6 @@ const skillGroups = [
   { title: 'الأدوات', items: ['ماكينة خياطة', 'قالب خياطة', 'أنماط يدوية'] },
 ];
 
-const projects = [
-  { title: 'فستان سهرة أنيق', tags: ['فساتين', 'حفلة'], description: 'تفصيل فستان سهرة بنقشة ناعمة وقصة خفيفة مع لمسات يدوية دقيقة.' },
-  { title: 'طقم تقليدي', tags: ['قندورة', 'زفاف'], description: 'تصميم قندورة جزائرية تقليدية بلمسات معاصرة وألوان راقية.' },
-  { title: 'بدلة رسمية', tags: ['بدل', 'مكتب'], description: 'بدلة أنثوية مصممة خصيصاً للراحة والأناقة في المناسبات الرسمية.' },
-  { title: 'طقم أطفال', tags: ['أطفال', 'سهرة'], description: 'تطريز رقيق وأقمشة ناعمة تناسب الأطفال في المناسبات الخاصة.' },
-  { title: 'شال مطرز', tags: ['تطريز', 'نسائي'], description: 'شال مزين بشريط وخرز لتفصيل مريح مع لمسة فنية تقليدية.' },
-  { title: 'فستان نهاري', tags: ['فساتين', 'نهار'], description: 'فستان بسيط وعصري من القطن بلمسة منزلية دافئة أنيقة.' },
-];
-
 const timelineItems = [
   { title: 'دورة خياطة متقدمة', location: 'معهد التكوين المهني، الجزائر', year: '2018' },
   { title: 'شهادة تطريز يدوي', location: 'جمعية الحرف التقليدية', year: '2020' },
@@ -40,6 +32,8 @@ const timelineItems = [
 ];
 
 export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
+  const featuredProjects = galleryProjects.slice(-3);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
   }, []);
@@ -103,12 +97,12 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-right"><span className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b26488]">أعمالي</span><h2 className="mt-4 text-3xl font-semibold text-[#3d2734] sm:text-4xl lg:text-5xl">نماذج من التصاميم</h2></div>
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {projects.map((project) => (
-              <article key={project.title} className="group overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
-                <div className="aspect-square bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee] p-5 sm:p-6"><div className="h-full w-full rounded-3xl bg-[#f8d8e4] shadow-inner shadow-[#e5b2cb]/40" /></div>
+            {featuredProjects.map((project) => (
+              <article key={project.id} className="group overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+                <div className="aspect-square bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee] p-2 sm:p-3"><img src={project.coverImage} alt={project.title} className="h-full w-full rounded-3xl object-cover shadow-inner shadow-[#e5b2cb]/40" loading="lazy" /></div>
                 <div className="space-y-3 p-5 text-right sm:space-y-4 sm:p-6">
                   <h3 className="text-lg font-semibold text-[#3d2734] sm:text-xl">{project.title}</h3>
-                  <div className="flex flex-wrap justify-end gap-2">{project.tags.map((tag) => <span key={tag} className="rounded-full bg-[#fff0f4] px-3 py-1 text-xs font-semibold text-[#b26488]">{tag}</span>)}</div>
+                  <div className="flex flex-wrap justify-end gap-2"><span className="rounded-full bg-[#fff0f4] px-3 py-1 text-xs font-semibold text-[#b26488]">{project.category}</span></div>
                   <p className="text-sm leading-7 text-[#6b515f]">{project.description}</p>
                   <button type="button" onClick={onGoGallery} className="text-sm font-semibold text-[#8e5a72] transition hover:text-[#b76487]">شوفي التفاصيل</button>
                 </div>
