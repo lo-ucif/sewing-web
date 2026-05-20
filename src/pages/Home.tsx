@@ -1,10 +1,7 @@
 ﻿import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { projects as galleryProjects } from "../data/projects";
 import img01 from "../assets/what-is-sewing-0.webp";
-
-interface HomeProps {
-  onGoGallery?: () => void;
-}
 
 const PhoneIcon = () => (
   <svg
@@ -69,7 +66,9 @@ const timelineItems = [
   },
 ];
 
-export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
+export const Home: React.FC = () => {
+  const navigate = useNavigate();
+  const goGallery = () => navigate("/projects");
   const featuredProjects = galleryProjects.slice(-3);
 
   useEffect(() => {
@@ -100,7 +99,7 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
               </a>
               <button
                 type="button"
-                onClick={onGoGallery}
+                onClick={goGallery}
                 className="inline-flex h-11 items-center justify-center rounded-full bg-[#c86c94] px-6 text-sm font-semibold text-white shadow-lg transition hover:bg-[#b55f83]"
               >
                 شوفي أعمالي
@@ -243,7 +242,7 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
                   </p>
                   <button
                     type="button"
-                    onClick={onGoGallery}
+                    onClick={goGallery}
                     className="text-sm font-semibold text-[#8e5a72] transition hover:text-[#b76487]"
                   >
                     شوفي التفاصيل
@@ -255,7 +254,7 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
           <div className="mt-10 text-right">
             <button
               type="button"
-              onClick={onGoGallery}
+              onClick={goGallery}
               className="inline-flex h-11 items-center rounded-full bg-[#c86c94] px-8 text-sm font-semibold text-white shadow-lg transition hover:bg-[#b55f83]"
             >
               شوفي كل الأعمال

@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from "react";
+﻿import React, { useEffect, useMemo } from "react";
 import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -75,6 +75,10 @@ const AppLayout: React.FC = () => {
         : location.pathname.startsWith("/projects/")
           ? "detail"
           : "home";
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  }, [location.pathname]);
 
   const goHome = () => navigate("/");
   const goGallery = () => navigate("/projects");
