@@ -1,6 +1,6 @@
-﻿import React, { useEffect, useMemo, useState } from 'react';
-import { projects } from '../data/projects';
-import type { Project } from '../types/project';
+﻿import React, { useEffect, useMemo, useState } from "react";
+import { projects } from "../data/projects";
+import type { Project } from "../types/project";
 
 interface ProjectDetailPageProps {
   projectId: number;
@@ -14,55 +14,66 @@ interface CommodityLine {
 }
 
 const toArabicCategory = (project: Project): string => {
-  if (project.category === 'Women') return 'نساء';
-  if (project.category === 'Kids') return 'بيبي';
-  if (project.category === 'Traditional') return 'ستايل تقليدي';
-  if (project.category === 'Custom') return 'تفصيل خاص';
-  return 'رجالي';
+  if (project.category === "Women") return "نساء";
+  if (project.category === "Kids") return "بيبي";
+  if (project.category === "Traditional") return "ستايل تقليدي";
+  if (project.category === "Custom") return "تفصيل خاص";
+  return "رجالي";
 };
 
 const makeCostModel = (project: Project) => {
   const fabricMeters = Math.max(2, Math.min(8, (project.title.length % 7) + 2));
-  const fabricPricePerMeter = 1400 + (project.id.length % 5) * 250 + (project.description.length % 4) * 100;
-  const sewingFee = 3200 + (project.longDescription?.length ?? project.description.length) % 2800;
+  const fabricPricePerMeter =
+    1400 +
+    (project.id.length % 5) * 250 +
+    (project.description.length % 4) * 100;
+  const sewingFee =
+    3200 +
+    ((project.longDescription?.length ?? project.description.length) % 2800);
 
   const commodities: CommodityLine[] = [
-    { name: 'سحاب مخفي', qty: 1, price: 450 },
-    { name: 'خيط تطريز', qty: 2, price: 300 },
-    { name: 'بطانة داخلية', qty: 1, price: 600 },
+    { name: "سحاب مخفي", qty: 1, price: 450 },
+    { name: "خيط تطريز", qty: 2, price: 300 },
+    { name: "بطانة داخلية", qty: 1, price: 600 },
   ];
 
   return { fabricMeters, fabricPricePerMeter, sewingFee, commodities };
 };
 
-const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBack }) => {
+const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
+  projectId,
+  onGoBack,
+}) => {
   const [activeImg, setActiveImg] = useState(0);
   const project = projects[projectId - 1];
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [projectId]);
 
   useEffect(() => {
     setActiveImg(0);
   }, [projectId]);
 
-  const { fabricMeters, fabricPricePerMeter, sewingFee, commodities } = useMemo(() => {
-    if (!project) {
-      return {
-        fabricMeters: 0,
-        fabricPricePerMeter: 0,
-        sewingFee: 0,
-        commodities: [] as CommodityLine[],
-      };
-    }
-    return makeCostModel(project);
-  }, [project]);
+  const { fabricMeters, fabricPricePerMeter, sewingFee, commodities } =
+    useMemo(() => {
+      if (!project) {
+        return {
+          fabricMeters: 0,
+          fabricPricePerMeter: 0,
+          sewingFee: 0,
+          commodities: [] as CommodityLine[],
+        };
+      }
+      return makeCostModel(project);
+    }, [project]);
 
   if (!project) {
     return (
       <div dir="rtl" className="px-4 pb-16 pt-28 text-center md:px-8">
-        <p className="mb-6 text-2xl font-semibold text-[#3d2734]">العمل غير موجود</p>
+        <p className="mb-6 text-2xl font-semibold text-[#3d2734]">
+          العمل غير موجود
+        </p>
         <button
           type="button"
           onClick={onGoBack}
@@ -85,26 +96,33 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
         </h1>
 
         <div className="mx-auto w-full max-w-[320px] space-y-3 sm:max-w-[360px] md:max-w-[380px]">
-          <div className="aspect-square overflow-hidden rounded-xl bg-[#f7edf1]">
+          <div className="w-full aspect-square overflow-hidden rounded-2xl bg-[#f7edf1]">
             <img
               src={project.images[activeImg] ?? project.coverImage}
               alt={project.title}
-              className="h-full w-full object-cover transition-opacity duration-300"
+              className="w-full h-full object-cover object-center transition-opacity duration-300"
             />
           </div>
-          <p className="text-center text-xs text-[#7d5a70]">{activeImg + 1} / {project.images.length}</p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {project.images.slice(0, 5).map((img, index) => (
-              <button
+          <p className="text-center text-xs text-[#7d5a70]">
+            {activeImg + 1} / {project.images.length}
+          </p>
+          <div className="flex gap-2 mt-3">
+            {project.images.map((img, index) => (
+              <div
                 key={`${img}-${index}`}
-                type="button"
                 onClick={() => setActiveImg(index)}
-                className={`size-[58px] overflow-hidden rounded-md transition hover:scale-105 ${
-                  activeImg === index ? 'ring-[1.5px] ring-[#c86c94]' : 'ring-[1.5px] ring-[#d5c8ce]'
+                className={`w-16 h-16 rounded-xl overflow-hidden cursor-pointer flex-shrink-0 transition-all duration-200 ${
+                  activeImg === index
+                    ? "ring-2 ring-offset-2 ring-current opacity-100"
+                    : "opacity-60 hover:opacity-90"
                 }`}
               >
-                <img src={img} alt={`صورة ${index + 1}`} className="h-full w-full object-cover" />
-              </button>
+                <img
+                  src={img}
+                  alt=""
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -112,7 +130,9 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div className="space-y-6">
             <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">📦 المستلزمات المستخدمة</p>
+              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
+                📦 المستلزمات المستخدمة
+              </p>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[340px] text-right text-sm">
                   <thead>
@@ -124,7 +144,10 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
                   </thead>
                   <tbody>
                     {commodities.map((item) => (
-                      <tr key={item.name} className="border-b border-[#f6e7ed] text-[#5d4352]">
+                      <tr
+                        key={item.name}
+                        className="border-b border-[#f6e7ed] text-[#5d4352]"
+                      >
                         <td className="py-2">{item.name}</td>
                         <td className="py-2">{item.qty}</td>
                         <td className="py-2">{item.price} دج</td>
@@ -141,7 +164,9 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
             </section>
 
             <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">ملخص مختصر</p>
+              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
+                ملخص مختصر
+              </p>
               <div className="space-y-2 text-right text-[#5d4352]">
                 <div className="flex items-center justify-between">
                   <span>{fabricTotal} دج</span>
@@ -163,16 +188,22 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
             </section>
 
             <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="text-base text-[#5d4352]">📅 تاريخ الخياطة: {project.date}</p>
+              <p className="text-base text-[#5d4352]">
+                📅 تاريخ الخياطة: {project.date}
+              </p>
             </section>
 
             <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="mb-3 text-base font-bold text-[#3d2734]">🧵 القماش المستخدم</p>
+              <p className="mb-3 text-base font-bold text-[#3d2734]">
+                🧵 القماش المستخدم
+              </p>
               <div className="space-y-2 text-base text-[#7d5a70]">
-                <p>النوع: {project.specs.fabric ?? 'كتان بلجيكي طبيعي'}</p>
+                <p>النوع: {project.specs.fabric ?? "كتان بلجيكي طبيعي"}</p>
                 <p>الكمية: {fabricMeters} أمتار</p>
                 <p>سعر المتر: {fabricPricePerMeter} دج</p>
-                <p className="font-bold">سعر القماش الإجمالي: {fabricTotal} دج</p>
+                <p className="font-bold">
+                  سعر القماش الإجمالي: {fabricTotal} دج
+                </p>
               </div>
             </section>
           </div>
@@ -190,4 +221,3 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
 };
 
 export default ProjectDetailPage;
-
