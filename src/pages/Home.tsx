@@ -84,7 +84,7 @@ export const Home: React.FC = () => {
               🧵 خياطة منزلية | الجزائر
             </span>
             <h1 className="text-4xl font-semibold leading-tight tracking-tight text-[#3d2734] sm:text-5xl lg:text-7xl lg:tracking-[-1.8px]">
-              فاطمة بوعلام
+              أم وائل
             </h1>
             <p className="max-w-xl text-base leading-8 text-[#6b515f] sm:text-lg sm:leading-9 lg:text-xl">
               أصنع ملابس تقليدية وعصرية بحب واتقان من بيتي، وأحوّل كل تصميم إلى

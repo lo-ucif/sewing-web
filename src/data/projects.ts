@@ -5,7 +5,7 @@ export const projects: Project[] = [
   {
     id: "velvet-gown",
     title: "فستان سهرة مخملي دافئ",
-    category: "Women",
+    category: "دسيكـ",
     description:
       "فستان سهرة مخيط من قماش القطيفة (المخمل) الناعم باللون الخمري الدافئ، مصمم بلمسة كلاسيكية أنثوية ليناسب المناسبات العائلية الخاصة.",
     longDescription:
@@ -48,7 +48,7 @@ export const projects: Project[] = [
   {
     id: "classic-abaya",
     title: "عباءة كلاسيكية مطرزة يدوياً",
-    category: "Traditional",
+    category: "ستايل منزلي",
     description:
       "عباءة سوداء أنيقة بقماش منسدل وتفاصيل تطريز ناعمة بخيوط الحرير على الأكمام، تناسب الإطلالات اليومية والمناسبات.",
     longDescription:
@@ -91,7 +91,7 @@ export const projects: Project[] = [
   {
     id: "moroccan-kaftan",
     title: "قفطان ناعم للمناسبات",
-    category: "Traditional",
+    category: "ستايل قبائلي",
     description:
       "قفطان شرقي تقليدي مصنوع من قماش الحرير المنسدل ومطرز بخيوط ذهبية ناعمة لإطلالة راقية في الأعياد والمناسبات.",
     longDescription:
@@ -134,7 +134,7 @@ export const projects: Project[] = [
   {
     id: "kids-dress",
     title: "فستان أطفال من الدانتيل والقطن",
-    category: "Kids",
+    category: "دسيكـ",
     description:
       "فستان بناتي رقيق مدمج بالدانتيل الفاخر والقطن العضوي الناعم لراحة ابنتك في الأعياد وجلسات التصوير.",
     longDescription:
@@ -177,7 +177,7 @@ export const projects: Project[] = [
   {
     id: "linen-blouse",
     title: "قميص صيفي من الكتان الطبيعي",
-    category: "Women",
+    category: "ستايل منزلي",
     description:
       "بلوزة صيفية خفيفة وباردة مصنوعة من الكتان الطبيعي بتفاصيل أزرار خشبية وقصة فضفاضة مريحة.",
     longDescription:
@@ -220,7 +220,7 @@ export const projects: Project[] = [
   {
     id: "dress-alterations",
     title: "تعديل وتطريز فستان زفاف عتيق",
-    category: "Custom",
+    category: "فساتين أعراس",
     description:
       "إعادة تصميم وتضييق فستان زفاف عائلي قديم ليتطابق مع مقاسات العروس الجديدة وتجديد التطريز التالف.",
     longDescription:
@@ -263,7 +263,7 @@ export const projects: Project[] = [
   {
     id: "bridal-gown-lace",
     title: "فستان زفاف دانتيل فاخر",
-    category: "Women",
+    category: "فساتين أعراس",
     description:
       "فستان زفاف أنيق مصنوع من الدانتيل الفرنسي بتفاصيل يدوية ناعمة وقصة ملكية.",
     longDescription:
@@ -307,7 +307,7 @@ export const projects: Project[] = [
   {
     id: "traditional-algerian-karakou",
     title: "كراكو جزائري مطرز",
-    category: "Traditional",
+    category: "ستايل قسنطيني",
     description: "كراكو جزائري تقليدي بخياطة يدوية وتطريز ذهبي فاخر.",
     longDescription:
       "قطعة مستوحاة من التراث الجزائري مع تطريز يدوي بخيوط ذهبية وسروال شلقة تقليدي. تم تنفيذها بعناية للحفاظ على الأصالة.",
@@ -350,7 +350,7 @@ export const projects: Project[] = [
   {
     id: "mens-classic-suit",
     title: "بدلة رجالية كلاسيكية",
-    category: "Men",
+    category: "دسيكـ",
     description: "بدلة رجالية أنيقة مصممة بتفصيل مخصص للمناسبات الرسمية.",
     longDescription:
       "تم استخدام قماش فاخر مع قصّة دقيقة لتوفير راحة وأناقة في نفس الوقت. تشمل جاكيت وسروال بخياطة احترافية.",
@@ -393,7 +393,7 @@ export const projects: Project[] = [
   {
     id: "baby-handmade-set",
     title: "طقم أطفال يدوي للأعياد",
-    category: "Kids",
+    category: "دسيكـ",
     type: "ستايل قسنطيني",
     description: "طقم أطفال بخياطة يدوية ناعمة ومريحة مع ألوان هادئة.",
     longDescription:
@@ -437,7 +437,7 @@ export const projects: Project[] = [
   {
     id: "custom-cushion-cover",
     title: "أغطية وسائد مطرزة حسب الطلب",
-    category: "Custom",
+    category: "ستايل منزلي",
     description: "تصميم أغطية وسائد بخياطة يدوية ونقوش مخصصة للمنزل.",
     longDescription:
       "تم تنفيذ مجموعة أغطية وسائد بتصميم مخصص حسب طلب العميل مع تطريز الأسماء والزخارف اليدوية.",
@@ -480,7 +480,7 @@ export const projects: Project[] = [
   {
     id: "ramadan-kaftan",
     title: "قفطان رمضاني عصري",
-    category: "Traditional",
+    category: "ستايل قبائلي",
     description: "قفطان ناعم بتصميم عصري مناسب للسهرات الرمضانية.",
     longDescription:
       "تصميم يجمع بين البساطة والأناقة مع أكمام واسعة وتطريز يدوي ناعم بخيوط ذهبية.",

@@ -1,7 +1,12 @@
 export interface Project {
   id: string;
   title: string;
-  category: "Women" | "Men" | "Kids" | "Traditional" | "Custom";
+  category:
+    | "دسيكـ"
+    | "فساتين أعراس"
+    | "ستايل منزلي"
+    | "ستايل قسنطيني"
+    | "ستايل قبائلي";
   type?: string;
   description: string;
   longDescription?: string;

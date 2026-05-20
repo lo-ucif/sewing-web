@@ -14,11 +14,7 @@ type RouteParams = {
 };
 
 const toArabicCategory = (project: Project): string => {
-  if (project.category === "Women") return "نساء";
-  if (project.category === "Kids") return "بيبي";
-  if (project.category === "Traditional") return "ستايل تقليدي";
-  if (project.category === "Custom") return "تفصيل خاص";
-  return "رجالي";
+  return project.category;
 };
 
 const parseNumberFromPrice = (value: string | number) => {
@@ -164,6 +160,34 @@ const ProjectDetailPageContent: React.FC<{
         </div>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div className="space-y-6 text-right" dir="rtl">
+            <section className="border-b border-border py-4">
+              <span className="inline-block rounded-full bg-[#fff0f4] px-4 py-1 text-sm font-semibold text-[#b26488]">
+                {toArabicCategory(project)}
+              </span>
+            </section>
+
+            <section className="border-b border-border pb-4">
+              <p className="text-base text-[#5d4352]">
+                📅 تاريخ الخياطة: {sewingDateText}
+              </p>
+            </section>
+
+            <section className="border-b border-border pb-4">
+              <p className="mb-3 text-base font-bold text-[#3d2734]">
+                🧵 القماش المستخدم
+              </p>
+              <div className="space-y-2 text-base text-muted">
+                <p>النوع: {fabricInfoType}</p>
+                <p>الكمية: {fabricMetersText}</p>
+                <p>سعر المتر: {fabricPricePerMeterText}</p>
+                <p className="font-bold">
+                  سعر القماش الإجمالي: {fabricTotalText}
+                </p>
+              </div>
+            </section>
+          </div>
+
           <div className="space-y-6">
             <section className="border-b border-border pb-4">
               <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
@@ -223,34 +247,6 @@ const ProjectDetailPageContent: React.FC<{
                     {totalCostText}
                   </span>
                 </div>
-              </div>
-            </section>
-          </div>
-
-          <div className="space-y-6 text-right" dir="rtl">
-            <section className="border-b border-border py-4">
-              <span className="inline-block rounded-full bg-[#fff0f4] px-4 py-1 text-sm font-semibold text-[#b26488]">
-                {toArabicCategory(project)}
-              </span>
-            </section>
-
-            <section className="border-b border-border pb-4">
-              <p className="text-base text-[#5d4352]">
-                📅 تاريخ الخياطة: {sewingDateText}
-              </p>
-            </section>
-
-            <section className="border-b border-border pb-4">
-              <p className="mb-3 text-base font-bold text-[#3d2734]">
-                🧵 القماش المستخدم
-              </p>
-              <div className="space-y-2 text-base text-muted">
-                <p>النوع: {fabricInfoType}</p>
-                <p>الكمية: {fabricMetersText}</p>
-                <p>سعر المتر: {fabricPricePerMeterText}</p>
-                <p className="font-bold">
-                  سعر القماش الإجمالي: {fabricTotalText}
-                </p>
               </div>
             </section>
           </div>

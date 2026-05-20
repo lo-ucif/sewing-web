@@ -1,13 +1,12 @@
-﻿import React, { useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import FloatingBubble from "../components/FloatingBubble";
 import { projects } from "../data/projects";
 import type { Project } from "../types/project";
 
 type GalleryCategory =
   | "الكل"
-  | "نساء"
-  | "بيبي"
+  | "دسيكـ"
   | "فساتين أعراس"
   | "ستايل منزلي"
   | "ستايل قسنطيني"
@@ -15,8 +14,7 @@ type GalleryCategory =
 
 const categories: GalleryCategory[] = [
   "الكل",
-  "نساء",
-  "بيبي",
+  "دسيكـ",
   "فساتين أعراس",
   "ستايل منزلي",
   "ستايل قسنطيني",
@@ -28,31 +26,24 @@ const matchesCategory = (
   category: GalleryCategory,
 ): boolean => {
   if (category === "الكل") return true;
-  if (category === "نساء") return project.category === "Women";
-  if (category === "بيبي") return project.category === "Kids";
-  if (category === "فساتين أعراس")
-    return /زفاف|عرس/i.test(project.title + " " + project.description);
-  if (category === "ستايل منزلي")
-    return /منزلي|البيت/i.test(
-      project.description + " " + (project.longDescription ?? ""),
-    );
-  if (category === "ستايل قسنطيني") return project.category === "Traditional";
-  if (category === "ستايل قبائلي") return project.category === "Custom";
-  return false;
+  return project.category === category;
 };
 
-const cardLabel = (project: Project): string => {
-  if (project.category === "Women") return "نساء";
-  if (project.category === "Kids") return "بيبي";
-  if (project.category === "Traditional") return "تقليدي";
-  if (project.category === "Custom") return "تفصيل خاص";
-  return "رجالي";
-};
+const cardLabel = (project: Project): string => project.category;
 
 const GalleryPage: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>("الكل");
   const gridRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const category = params.get("category") as GalleryCategory | null;
+    if (category && categories.includes(category)) {
+      setActiveCategory(category);
+    }
+  }, [location.search]);
 
   const categoryCounts = useMemo(() => {
     return categories.reduce<Record<GalleryCategory, number>>(

@@ -1,9 +1,14 @@
-import { Link } from 'react-router-dom';
-import { Scissors, User, Landmark, Palette } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Scissors, User, Landmark, Palette } from "lucide-react";
 
 interface CategoryItem {
   id: string;
-  name: 'Women' | 'Men' | 'Kids' | 'Traditional' | 'Custom';
+  name:
+    | "دسيكـ"
+    | "فساتين أعراس"
+    | "ستايل منزلي"
+    | "ستايل قسنطيني"
+    | "ستايل قبائلي";
   title: string;
   subtitle: string;
   imageUrl: string;
@@ -13,35 +18,39 @@ interface CategoryItem {
 export const Categories: React.FC = () => {
   const categories: CategoryItem[] = [
     {
-      id: 'women',
-      name: 'Women',
-      title: 'Haute Couture',
-      subtitle: 'Evening gowns, bridal, and custom daywear.',
-      imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600',
+      id: "desk",
+      name: "دسيكـ",
+      title: "تشكيلة دسيكـ",
+      subtitle: "Evening gowns, bridal, and custom daywear.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600",
       icon: <Scissors className="w-5 h-5" />,
     },
     {
-      id: 'men',
-      name: 'Men',
-      title: 'Bespoke Tailoring',
-      subtitle: 'Sartorial suits, shirts, and coat tailoring.',
-      imageUrl: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=600',
+      id: "bridal",
+      name: "فساتين أعراس",
+      title: "فساتين زفاف",
+      subtitle: "Sartorial suits, shirts, and coat tailoring.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1617137968427-85924c800a22?q=80&w=600",
       icon: <User className="w-5 h-5" />,
     },
     {
-      id: 'traditional',
-      name: 'Traditional',
-      title: 'Heritage Garments',
-      subtitle: 'Traditional kaftans, tunics, and embroidery.',
-      imageUrl: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600',
+      id: "home",
+      name: "ستايل منزلي",
+      title: "ستايل منزلي",
+      subtitle: "Traditional kaftans, tunics, and embroidery.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=600",
       icon: <Landmark className="w-5 h-5" />,
     },
     {
-      id: 'custom',
-      name: 'Custom',
-      title: 'Restyling & Fit',
-      subtitle: 'Creative reconstruction, alterations, and refits.',
-      imageUrl: 'https://images.unsplash.com/photo-1520637102912-2df6bb2aec6d?q=80&w=600',
+      id: "constantine",
+      name: "ستايل قسنطيني",
+      title: "ستايل قسنطيني",
+      subtitle: "Creative reconstruction, alterations, and refits.",
+      imageUrl:
+        "https://images.unsplash.com/photo-1520637102912-2df6bb2aec6d?q=80&w=600",
       icon: <Palette className="w-5 h-5" />,
     },
   ];
@@ -58,7 +67,8 @@ export const Categories: React.FC = () => {
             Bespoke Specializations
           </h2>
           <p className="text-dark/65 font-sans font-light text-sm">
-            Whether creating a custom bridal gown from scratch or reconstructing a vintage heirloom coat, our attention to stitch detail is absolute.
+            Whether creating a custom bridal gown from scratch or reconstructing
+            a vintage heirloom coat, our attention to stitch detail is absolute.
           </p>
         </div>
 
@@ -67,7 +77,7 @@ export const Categories: React.FC = () => {
           {categories.map((cat) => (
             <Link
               key={cat.id}
-              to={`/projects?category=${cat.name}`}
+              to={`/projects?category=${encodeURIComponent(cat.name)}`}
               className="group block relative overflow-hidden rounded-md aspect-[4/5] shadow-sm hover:shadow-lg transition-all duration-500 bg-dark"
             >
               {/* Card Image */}
@@ -90,11 +100,11 @@ export const Categories: React.FC = () => {
                 <span className="text-gold text-xs font-sans tracking-widest uppercase mb-1 font-medium">
                   {cat.name} Portfolio
                 </span>
-                
+
                 <h3 className="text-white font-serif text-xl font-medium mb-1 tracking-wide">
                   {cat.title}
                 </h3>
-                
+
                 <p className="text-white/70 text-xs font-sans font-light leading-relaxed">
                   {cat.subtitle}
                 </p>
