@@ -3,10 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { projects } from "../data/projects";
 import type { Project } from "../types/project";
 
-interface CommodityLine {
-  name: string;
-  qty: number;
-  price: number;
+interface SupplyItem {
+  item: string;
+  quantity: number;
+  price: string;
 }
 
 type RouteParams = {
@@ -21,7 +21,15 @@ const toArabicCategory = (project: Project): string => {
   return "رجالي";
 };
 
-const makeCostModel = (project: Project) => {
+const parseNumberFromPrice = (value: string | number) => {
+  if (typeof value === "number") return value;
+  const digits = String(value).replace(/[^\d]/g, "");
+  return digits ? Number(digits) : 0;
+};
+
+const formatPrice = (value: number) => `${value} دج`;
+
+const makeFallbackCostModel = (project: Project) => {
   const fabricMeters = Math.max(2, Math.min(8, (project.title.length % 7) + 2));
   const fabricPricePerMeter =
     1400 +
@@ -31,13 +39,13 @@ const makeCostModel = (project: Project) => {
     3200 +
     ((project.longDescription?.length ?? project.description.length) % 2800);
 
-  const commodities: CommodityLine[] = [
-    { name: "سحاب مخفي", qty: 1, price: 450 },
-    { name: "خيط تطريز", qty: 2, price: 300 },
-    { name: "بطانة داخلية", qty: 1, price: 600 },
+  const defaultSupplies: SupplyItem[] = [
+    { item: "سحاب مخفي", quantity: 1, price: "450 دج" },
+    { item: "خيط تطريز", quantity: 2, price: "300 دج" },
+    { item: "بطانة داخلية", quantity: 1, price: "600 دج" },
   ];
 
-  return { fabricMeters, fabricPricePerMeter, sewingFee, commodities };
+  return { fabricMeters, fabricPricePerMeter, sewingFee, defaultSupplies };
 };
 
 const ProjectDetailPage: React.FC = () => {
@@ -82,18 +90,39 @@ const ProjectDetailPageContent: React.FC<{
   projectId: number;
 }> = ({ project, projectId }) => {
   const [activeImg, setActiveImg] = useState(0);
-  const { fabricMeters, fabricPricePerMeter, sewingFee, commodities } = useMemo(
-    () => makeCostModel(project),
-    [project],
-  );
+  const { fabricMeters, fabricPricePerMeter, sewingFee, defaultSupplies } =
+    useMemo(() => makeFallbackCostModel(project), [project]);
+
+  const supplies = project.supplies ?? defaultSupplies;
+  const suppliesTotalNumber = project.suppliesTotal
+    ? parseNumberFromPrice(project.suppliesTotal)
+    : supplies.reduce((sum, item) => sum + parseNumberFromPrice(item.price), 0);
+
+  const fabricTotal = project.fabricInfo
+    ? parseNumberFromPrice(project.fabricInfo.totalPrice ?? "0")
+    : fabricMeters * fabricPricePerMeter;
+
+  const fabricInfoType =
+    project.fabricInfo?.type ?? project.specs.fabric ?? "كتان بلجيكي طبيعي";
+  const fabricMetersText =
+    project.fabricInfo?.quantity ?? `${fabricMeters} أمتار`;
+  const fabricPricePerMeterText =
+    project.fabricInfo?.meterPrice ?? formatPrice(fabricPricePerMeter);
+  const fabricTotalText =
+    project.fabricInfo?.totalPrice ?? formatPrice(fabricTotal);
+
+  const sewingCostText = project.summary?.sewingCost ?? formatPrice(sewingFee);
+  const fabricCostText = project.summary?.fabricCost ?? fabricTotalText;
+  const totalCostText =
+    project.summary?.totalCost ??
+    formatPrice(fabricTotal + sewingFee + suppliesTotalNumber);
+  const sewingDateText = project.sewingDate ?? project.date;
+  const notesText =
+    project.notes ?? project.longDescription ?? project.description;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [projectId]);
-
-  const fabricTotal = fabricMeters * fabricPricePerMeter;
-  const commoditiesTotal = commodities.reduce((sum, c) => sum + c.price, 0);
-  const grandTotal = fabricTotal + sewingFee + commoditiesTotal;
 
   return (
     <div className="px-3 pb-14 pt-24 sm:px-4 md:px-8 lg:px-12">
@@ -150,20 +179,23 @@ const ProjectDetailPageContent: React.FC<{
                     </tr>
                   </thead>
                   <tbody>
-                    {commodities.map((item) => (
+                    {supplies.map((item) => (
                       <tr
-                        key={item.name}
+                        key={item.item}
                         className="border-b border-[#f6e7ed] text-[#5d4352]"
                       >
-                        <td className="py-2">{item.name}</td>
-                        <td className="py-2">{item.qty}</td>
-                        <td className="py-2">{item.price} دج</td>
+                        <td className="py-2">{item.item}</td>
+                        <td className="py-2">{item.quantity}</td>
+                        <td className="py-2">{item.price}</td>
                       </tr>
                     ))}
                     <tr className="font-bold text-[#3d2734]">
                       <td className="py-2">الإجمالي</td>
                       <td className="py-2" />
-                      <td className="py-2">{commoditiesTotal} دج</td>
+                      <td className="py-2">
+                        {project.suppliesTotal ??
+                          formatPrice(suppliesTotalNumber)}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -177,18 +209,18 @@ const ProjectDetailPageContent: React.FC<{
               <div className="space-y-2 text-right text-[#5d4352]">
                 <div className="flex items-center justify-between">
                   <span className="text-[#5d4352]">تكلفة القماش</span>
-                  <span className="font-medium">{fabricTotal} دج</span>
+                  <span className="font-medium">{fabricCostText}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#5d4352]">أجرة الخياطة</span>
-                  <span className="font-medium">{sewingFee} دج</span>
+                  <span className="font-medium">{sewingCostText}</span>
                 </div>
                 <div className="flex items-center justify-between pt-2 border-t border-border mt-2">
                   <span className="font-bold text-[#3d2734]">
                     السعر الإجمالي
                   </span>
                   <span className="font-bold text-[#3d2734]">
-                    {grandTotal} دج
+                    {totalCostText}
                   </span>
                 </div>
               </div>
@@ -204,7 +236,7 @@ const ProjectDetailPageContent: React.FC<{
 
             <section className="border-b border-border pb-4">
               <p className="text-base text-[#5d4352]">
-                📅 تاريخ الخياطة: {project.date}
+                📅 تاريخ الخياطة: {sewingDateText}
               </p>
             </section>
 
@@ -213,11 +245,11 @@ const ProjectDetailPageContent: React.FC<{
                 🧵 القماش المستخدم
               </p>
               <div className="space-y-2 text-base text-muted">
-                <p>النوع: {project.specs.fabric ?? "كتان بلجيكي طبيعي"}</p>
-                <p>الكمية: {fabricMeters} أمتار</p>
-                <p>سعر المتر: {fabricPricePerMeter} دج</p>
+                <p>النوع: {fabricInfoType}</p>
+                <p>الكمية: {fabricMetersText}</p>
+                <p>سعر المتر: {fabricPricePerMeterText}</p>
                 <p className="font-bold">
-                  سعر القماش الإجمالي: {fabricTotal} دج
+                  سعر القماش الإجمالي: {fabricTotalText}
                 </p>
               </div>
             </section>
@@ -227,7 +259,7 @@ const ProjectDetailPageContent: React.FC<{
         <section className="space-y-3 text-right" dir="rtl">
           <p className="text-base font-bold text-[#3d2734]">📝 ملاحظات</p>
           <p className="max-w-130 text-base leading-7 text-muted">
-            {project.longDescription ?? project.description}
+            {notesText}
           </p>
         </section>
       </div>
