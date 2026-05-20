@@ -29,11 +29,15 @@ export const App: React.FC = () => {
       <Navbar currentPage={page} onGoHome={goHome} onGoGallery={goGallery} />
       <main className="flex-1">
         {page === "home" && <Home onGoGallery={goGallery} />}
-        {page === "gallery" && <GalleryPage onGoHome={goHome} onGoDetail={goDetail} />}
+        {page === "gallery" && <GalleryPage onGoDetail={goDetail} />}
         {page === "detail" && selectedId !== null && <ProjectDetailPage projectId={selectedId} onGoBack={goBack} />}
       </main>
+      
       <Footer />
     </div>
   );
 };
 export default App;
+
+
+

@@ -1,4 +1,5 @@
 ﻿import React, { useMemo, useRef, useState } from 'react';
+import FloatingBubble from '../components/FloatingBubble';
 import { projects } from '../data/projects';
 import type { Project } from '../types/project';
 
@@ -12,7 +13,6 @@ type GalleryCategory =
   | 'ستايل قبائلي';
 
 interface GalleryPageProps {
-  onGoHome: () => void;
   onGoDetail: (id: number) => void;
 }
 
@@ -45,7 +45,7 @@ const cardLabel = (project: Project): string => {
   return 'رجالي';
 };
 
-const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
+const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>('الكل');
   const gridRef = useRef<HTMLDivElement | null>(null);
 
@@ -56,51 +56,17 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
     }, {} as Record<GalleryCategory, number>);
   }, []);
 
+  const bubbleItems = useMemo(() => {
+    return categories.map((category) => ({ key: category, label: `${category} (${categoryCounts[category]})` }));
+  }, [categoryCounts]);
+
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => matchesCategory(project, activeCategory));
   }, [activeCategory]);
 
   return (
-    <div dir="rtl" className="px-3 pb-12 pt-24 sm:px-4 md:px-8 lg:px-12">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-right text-xl font-semibold text-[#3d2734] sm:text-2xl md:text-3xl">معرض الأعمال</h1>
-          <button
-            type="button"
-            onClick={onGoHome}
-            className="rounded-full border border-[#c86c94] px-4 py-2 text-sm font-semibold text-[#c86c94] transition hover:bg-[#fff0f4]"
-          >
-            رجوع للرئيسية
-          </button>
-        </div>
-
-        <div className="sticky top-20 z-30 mb-8 border-y border-[#f0d8e3] py-3 backdrop-blur-sm">
-          <div className="overflow-x-auto">
-            <div className="mx-auto flex min-w-max justify-center gap-2 whitespace-nowrap px-1">
-              {categories.map((category) => {
-                const isActive = category === activeCategory;
-                return (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => {
-                      setActiveCategory(category);
-                      gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }}
-                    className={`rounded-full border px-4 py-2 text-sm transition ${
-                      isActive
-                        ? 'border-[#111111] bg-[#111111] text-white'
-                        : 'border-[#d9b7c5] bg-transparent text-[#6b515f] hover:border-[#b76487]'
-                    }`}
-                  >
-                    {category} ({categoryCounts[category]})
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
+    <div dir="rtl" className="pb-12 pt-24">
+      <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-8 lg:px-10">
         <div key={activeCategory} ref={gridRef} className="animate-[fadeIn_.3s_ease]" style={{ animationFillMode: 'both' }}>
           {filteredProjects.length === 0 ? (
             <p className="py-20 text-center text-lg text-[#7d5a70]">لا توجد أعمال في هذا التصنيف حالياً 🧵</p>
@@ -136,10 +102,17 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
         </div>
       </div>
 
+      <FloatingBubble
+        items={bubbleItems}
+        onSelect={(key) => {
+          setActiveCategory(key as GalleryCategory);
+          gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }}
+      />
+
       <style>{`@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
     </div>
   );
 };
 
 export default GalleryPage;
-
