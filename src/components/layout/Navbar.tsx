@@ -1,111 +1,131 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Scissors } from 'lucide-react';
-import { useScroll } from '../../hooks/useScroll';
+import React, { useState } from "react";
+import { Menu, X, MessageCircle, Scissors } from "lucide-react";
+import { useScroll } from "../../hooks/useScroll";
+
+const navLinks = [
+  { name: "الرئيسية", href: "#home" },
+  { name: "من أنا", href: "#about" },
+  { name: "تخصصاتي", href: "#skills" },
+  { name: "أعمالي", href: "#projects" },
+  { name: "تواصلي معي", href: "#contact" },
+];
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { scrolled } = useScroll(20);
-  const location = useLocation();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-  ];
-
-  const isActive = (path: string) => {
-    if (path === '/') {
-      return location.pathname === '/';
-    }
-    return location.pathname.startsWith(path);
-  };
-
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-in-out border-b ${
-        scrolled
-          ? 'bg-beige/85 backdrop-blur-md border-dark/5 py-4 shadow-sm'
-          : 'bg-transparent border-transparent py-6'
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "bg-white/90 backdrop-blur-lg shadow-sm" : "bg-transparent"} border-b border-[#f3d6e0]/50`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link
-          to="/"
-          onClick={closeMenu}
-          className="flex items-center gap-2 group text-dark focus:outline-none"
-        >
-          <Scissors className="w-5 h-5 text-gold transform rotate-90 group-hover:rotate-45 transition-transform duration-500" />
-          <span className="font-serif text-lg md:text-xl font-semibold tracking-[0.2em] uppercase">
-            Maison <span className="text-gold font-light">de Couture</span>
-          </span>
-        </Link>
-
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.path}
-              className={`text-xs font-sans tracking-widest uppercase relative py-1 focus:outline-none transition-colors duration-300 ${
-                isActive(link.path)
-                  ? 'text-gold font-medium'
-                  : 'text-dark/70 hover:text-dark'
-              } after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:scale-x-0 ${
-                isActive(link.path) ? 'after:scale-x-100' : 'hover:after:scale-x-100'
-              } after:bg-[#c8a96a] after:origin-left after:transition-transform after:duration-300`}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <Link
-            to="/contact"
-            className="text-xs font-sans tracking-widest uppercase bg-dark text-white hover:bg-gold hover:text-dark px-5 py-2.5 transition-all duration-300 rounded-sm shadow-sm"
+      <div className="max-w-7xl mx-auto px-5 md:px-10 flex items-center justify-between h-20">
+        <div className="flex items-center gap-3">
+          <Scissors className="w-6 h-6 text-[#bb7c99] rotate-90" />
+          <a
+            href="#home"
+            onClick={closeMenu}
+            className="font-sans text-base md:text-lg font-semibold tracking-[0.24em] text-[#4b313d] uppercase"
           >
-            Book Fitting
-          </Link>
+            فاطمة بوعلام
+          </a>
         </div>
 
-        {/* Mobile Hamburger Trigger */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={closeMenu}
+              className="text-sm font-sans text-[#6d4d5f] hover:text-[#b76487] transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Instagram"
+            className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+          >
+            <span className="text-base">📸</span>
+          </a>
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Facebook"
+            className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+          >
+            <span className="text-base">📘</span>
+          </a>
+          <a
+            href="https://wa.me/212600000000"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="WhatsApp"
+            className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+          </a>
+        </div>
+
         <button
           onClick={toggleMenu}
-          className="md:hidden p-1 text-dark/80 hover:text-dark transition-colors focus:outline-none"
-          aria-label="Toggle Navigation Menu"
+          className="md:hidden p-2 text-[#6d4d5f] hover:text-[#b76487] transition-colors"
+          aria-label="Toggle menu"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile Drawer Overlay */}
       <div
-        className={`fixed inset-0 top-[65px] bg-beige z-30 flex flex-col items-center justify-center gap-8 md:hidden transition-all duration-500 ease-in-out border-t border-dark/5 ${
-          isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-        }`}
+        className={`md:hidden bg-white/95 border-t border-[#f3d6e0]/50 transition-all duration-300 overflow-hidden ${isOpen ? "max-h-96" : "max-h-0"}`}
       >
-        {navLinks.map((link) => (
-          <Link
-            key={link.name}
-            to={link.path}
-            onClick={closeMenu}
-            className={`font-serif text-2xl tracking-wider hover:text-gold transition-colors ${
-              isActive(link.path) ? 'text-gold' : 'text-dark'
-            }`}
-          >
-            {link.name}
-          </Link>
-        ))}
-        <Link
-          to="/contact"
-          onClick={closeMenu}
-          className="text-xs font-sans tracking-widest uppercase bg-dark text-white hover:bg-gold hover:text-dark px-8 py-3.5 transition-all duration-300 rounded-sm mt-4 shadow-md"
-        >
-          Book Fitting
-        </Link>
+        <div className="px-5 pb-6 pt-4 space-y-4">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              onClick={closeMenu}
+              className="block text-right text-base font-sans text-[#5e4152] hover:text-[#b76487] transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+          <div className="flex items-center justify-between gap-3 mt-3">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+            >
+              <span className="text-base">📸</span>
+            </a>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+            >
+              <span className="text-base">📘</span>
+            </a>
+            <a
+              href="https://wa.me/212600000000"
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+            >
+              <MessageCircle className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
       </div>
     </nav>
   );

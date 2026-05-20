@@ -1,13 +1,12 @@
-import React from 'react';
-import { Scissors, MessageSquare, Instagram } from 'lucide-react';
+import React from "react";
+import { Scissors, MessageSquare } from "lucide-react";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <footer className="bg-wine-dark text-white py-12 border-t border-rose-primary/10">
       <div className="max-w-7xl mx-auto px-6 text-center space-y-6">
-        
         {/* Brand Logo & Icon */}
         <div className="flex items-center justify-center gap-2">
           <Scissors className="w-5 h-5 text-rose-light transform -rotate-45" />
@@ -18,7 +17,8 @@ export const Footer: React.FC = () => {
 
         {/* Tagline */}
         <p className="font-sans text-rose-light/70 text-xs md:text-sm font-light max-w-md mx-auto leading-relaxed">
-          حياكة يدوية منزلية تصنع من القماش حكايات دافئة تناسب مقاساتكِ وأناقتكِ الفريدة.
+          حياكة يدوية منزلية تصنع من القماش حكايات دافئة تناسب مقاساتكِ وأناقتكِ
+          الفريدة.
         </p>
 
         {/* Social Links */}
@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
             className="w-8 h-8 rounded-full bg-white/5 hover:bg-rose-primary hover:text-white flex items-center justify-center transition-all duration-300"
             aria-label="Instagram Profile"
           >
-            <Instagram className="w-4 h-4" />
+            <span className="text-base">📸</span>
           </a>
         </div>
 
@@ -48,7 +48,6 @@ export const Footer: React.FC = () => {
           <p>© {currentYear} خياطتي الأنيقة. جميع الحقوق محفوظة.</p>
           <p className="mt-1 font-light">صُنِع بحب في المشغل المنزلي.</p>
         </div>
-
       </div>
     </footer>
   );
