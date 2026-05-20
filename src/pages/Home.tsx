@@ -1,4 +1,8 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
+
+interface HomeProps {
+  onGoGallery?: () => void;
+}
 
 const skillGroups = [
   {
@@ -49,7 +53,7 @@ const projects = [
   {
     title: "شال مطرز",
     tags: ["تطريز", "نسائي"],
-    description: "شال مزين بشرٍّيط وخرز لتفصيل مريح مع لمسة فنية تقليدية.",
+    description: "شال مزين بشريط وخرز لتفصيل مريح مع لمسة فنية تقليدية.",
   },
   {
     title: "فستان نهاري",
@@ -76,7 +80,7 @@ const timelineItems = [
   },
 ];
 
-export const Home: React.FC = () => {
+export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, []);
@@ -143,7 +147,7 @@ export const Home: React.FC = () => {
               العصر. أنفّذ كل قطعة باليد مع اهتمام دقيق بالتطريز والتفاصيل.
             </p>
             <p className="mt-4 text-right text-lg leading-9 text-[#6b515f]">
-              خدماتي تشمل تفصيل القندورة والكا"راكو، فساتين السهرة، البدل،
+              خدماتي تشمل تفصيل القندورة والكاراكو، فساتين السهرة، البدل،
               وأزياء الأطفال مع درع شخصي لكل عميلة.
             </p>
             <p className="mt-4 text-right text-lg leading-9 text-[#6b515f]">
@@ -255,12 +259,13 @@ export const Home: React.FC = () => {
             ))}
           </div>
           <div className="mt-10 text-right">
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={onGoGallery}
               className="inline-flex rounded-full bg-[#c86c94] px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#b55f83]"
             >
               شوفي كل الأعمال
-            </a>
+            </button>
           </div>
         </div>
       </section>
