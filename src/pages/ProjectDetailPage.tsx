@@ -1,17 +1,17 @@
 ﻿import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { projects } from "../data/projects";
 import type { Project } from "../types/project";
-
-interface ProjectDetailPageProps {
-  projectId: number;
-  onGoBack: () => void;
-}
 
 interface CommodityLine {
   name: string;
   qty: number;
   price: number;
 }
+
+type RouteParams = {
+  id?: string;
+};
 
 const toArabicCategory = (project: Project): string => {
   if (project.category === "Women") return "نساء";
@@ -40,33 +40,16 @@ const makeCostModel = (project: Project) => {
   return { fabricMeters, fabricPricePerMeter, sewingFee, commodities };
 };
 
-const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
-  projectId,
-  onGoBack,
-}) => {
-  const [activeImg, setActiveImg] = useState(0);
-  const project = projects[projectId - 1];
+const ProjectDetailPage: React.FC = () => {
+  const { id } = useParams<RouteParams>();
+  const navigate = useNavigate();
+  const projectId = Number(id ?? NaN);
+  const project =
+    Number.isInteger(projectId) && projectId > 0
+      ? projects[projectId - 1]
+      : undefined;
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [projectId]);
-
-  useEffect(() => {
-    setActiveImg(0);
-  }, [projectId]);
-
-  const { fabricMeters, fabricPricePerMeter, sewingFee, commodities } =
-    useMemo(() => {
-      if (!project) {
-        return {
-          fabricMeters: 0,
-          fabricPricePerMeter: 0,
-          sewingFee: 0,
-          commodities: [] as CommodityLine[],
-        };
-      }
-      return makeCostModel(project);
-    }, [project]);
+  const handleGoBack = () => navigate(-1);
 
   if (!project) {
     return (
@@ -76,14 +59,37 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
         </p>
         <button
           type="button"
-          onClick={onGoBack}
-          className="rounded-full border border-[#c86c94] px-6 py-3 text-sm font-semibold text-[#c86c94]"
+          onClick={handleGoBack}
+          className="rounded-full border border-accent px-6 py-3 text-sm font-semibold text-accent"
         >
           رجوع
         </button>
       </div>
     );
   }
+
+  return (
+    <ProjectDetailPageContent
+      key={projectId}
+      project={project}
+      projectId={projectId}
+    />
+  );
+};
+
+const ProjectDetailPageContent: React.FC<{
+  project: Project;
+  projectId: number;
+}> = ({ project, projectId }) => {
+  const [activeImg, setActiveImg] = useState(0);
+  const { fabricMeters, fabricPricePerMeter, sewingFee, commodities } = useMemo(
+    () => makeCostModel(project),
+    [project],
+  );
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [projectId]);
 
   const fabricTotal = fabricMeters * fabricPricePerMeter;
   const commoditiesTotal = commodities.reduce((sum, c) => sum + c.price, 0);
@@ -92,11 +98,11 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
   return (
     <div className="px-3 pb-14 pt-24 sm:px-4 md:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl space-y-8 sm:space-y-10 md:space-y-12">
-        <h1 className="mx-auto max-w-[520px] text-center text-2xl font-bold leading-tight tracking-[0.36px] text-[#3d2734] sm:text-3xl md:text-4xl">
+        <h1 className="mx-auto max-w-130 text-center text-2xl font-bold leading-tight tracking-[0.36px] text-[#3d2734] sm:text-3xl md:text-4xl">
           {project.title}
         </h1>
 
-        <div className="mx-auto w-full max-w-[320px] space-y-3 sm:max-w-[360px] md:max-w-[380px]">
+        <div className="mx-auto w-full max-w-80 space-y-3 sm:max-w-90 md:max-w-95">
           <div className="w-full aspect-square overflow-hidden rounded-2xl bg-[#f7edf1]">
             <img
               src={project.images[activeImg] ?? project.coverImage}
@@ -104,7 +110,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               className="w-full h-full object-cover object-center transition-opacity duration-300"
             />
           </div>
-          <p className="text-center text-xs text-[#7d5a70]">
+          <p className="text-center text-xs text-muted">
             {activeImg + 1} / {project.images.length}
           </p>
           <div className="flex gap-2 mt-3">
@@ -112,7 +118,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               <div
                 key={`${img}-${index}`}
                 onClick={() => setActiveImg(index)}
-                className={`w-16 h-16 rounded-xl overflow-hidden cursor-pointer flex-shrink-0 transition-all duration-200 ${
+                className={`w-16 h-16 rounded-xl overflow-hidden cursor-pointer shrink-0 transition-all duration-200 ${
                   activeImg === index
                     ? "ring-2 ring-offset-2 ring-current opacity-100"
                     : "opacity-60 hover:opacity-90"
@@ -130,14 +136,14 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           <div className="space-y-6">
-            <section className="border-b border-[#f0d8e3] pb-4">
+            <section className="border-b border-border pb-4">
               <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
                 📦 المستلزمات المستخدمة
               </p>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[340px] text-right text-sm">
+                <table className="w-full min-w-85 text-right text-sm">
                   <thead>
-                    <tr className="border-b border-[#edd2dd] text-[#7d5a70]">
+                    <tr className="border-b border-divider text-muted">
                       <th className="py-2 font-bold">المستلزم</th>
                       <th className="py-2 font-bold">الكمية</th>
                       <th className="py-2 font-bold">السعر</th>
@@ -164,7 +170,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               </div>
             </section>
 
-            <section className="border-b border-[#f0d8e3] pb-4">
+            <section className="border-b border-border pb-4">
               <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
                 ملخص مختصر
               </p>
@@ -177,7 +183,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
                   <span className="text-[#5d4352]">أجرة الخياطة</span>
                   <span className="font-medium">{sewingFee} دج</span>
                 </div>
-                <div className="flex items-center justify-between pt-2 border-t border-[#f0d8e3] mt-2">
+                <div className="flex items-center justify-between pt-2 border-t border-border mt-2">
                   <span className="font-bold text-[#3d2734]">
                     السعر الإجمالي
                   </span>
@@ -190,23 +196,23 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
           </div>
 
           <div className="space-y-6 text-right" dir="rtl">
-            <section className="border-b border-[#f0d8e3] py-4">
+            <section className="border-b border-border py-4">
               <span className="inline-block rounded-full bg-[#fff0f4] px-4 py-1 text-sm font-semibold text-[#b26488]">
                 {toArabicCategory(project)}
               </span>
             </section>
 
-            <section className="border-b border-[#f0d8e3] pb-4">
+            <section className="border-b border-border pb-4">
               <p className="text-base text-[#5d4352]">
                 📅 تاريخ الخياطة: {project.date}
               </p>
             </section>
 
-            <section className="border-b border-[#f0d8e3] pb-4">
+            <section className="border-b border-border pb-4">
               <p className="mb-3 text-base font-bold text-[#3d2734]">
                 🧵 القماش المستخدم
               </p>
-              <div className="space-y-2 text-base text-[#7d5a70]">
+              <div className="space-y-2 text-base text-muted">
                 <p>النوع: {project.specs.fabric ?? "كتان بلجيكي طبيعي"}</p>
                 <p>الكمية: {fabricMeters} أمتار</p>
                 <p>سعر المتر: {fabricPricePerMeter} دج</p>
@@ -220,7 +226,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
         <section className="space-y-3 text-right" dir="rtl">
           <p className="text-base font-bold text-[#3d2734]">📝 ملاحظات</p>
-          <p className="max-w-[520px] text-base leading-7 text-[#7d5a70]">
+          <p className="max-w-130 text-base leading-7 text-muted">
             {project.longDescription ?? project.description}
           </p>
         </section>

@@ -1,4 +1,5 @@
 ﻿import React, { useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FloatingBubble from "../components/FloatingBubble";
 import { projects } from "../data/projects";
 import type { Project } from "../types/project";
@@ -11,10 +12,6 @@ type GalleryCategory =
   | "ستايل منزلي"
   | "ستايل قسنطيني"
   | "ستايل قبائلي";
-
-interface GalleryPageProps {
-  onGoDetail: (id: number) => void;
-}
 
 const categories: GalleryCategory[] = [
   "الكل",
@@ -52,7 +49,8 @@ const cardLabel = (project: Project): string => {
   return "رجالي";
 };
 
-const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
+const GalleryPage: React.FC = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>("الكل");
   const gridRef = useRef<HTMLDivElement | null>(null);
 
@@ -94,7 +92,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
           style={{ animationFillMode: "both" }}
         >
           {filteredProjects.length === 0 ? (
-            <p className="py-20 text-center text-lg text-[#7d5a70]">
+            <p className="py-20 text-center text-lg text-muted">
               لا توجد أعمال في هذا التصنيف حالياً 🧵
             </p>
           ) : (
@@ -105,10 +103,10 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
                 return (
                   <article
                     key={project.id}
-                    onClick={() => onGoDetail(numericId)}
-                    className="group cursor-pointer overflow-hidden rounded-2xl border border-[#f0d8e3] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                    onClick={() => navigate(`/projects/${numericId}`)}
+                    className="group cursor-pointer overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                   >
-                    <div className="aspect-[4/5] overflow-hidden">
+                    <div className="aspect-4/5 overflow-hidden">
                       <img
                         src={project.coverImage}
                         alt={project.title}
@@ -123,7 +121,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoDetail }) => {
                       <h3 className="line-clamp-2 text-base font-semibold text-[#3d2734]">
                         {project.title}
                       </h3>
-                      <p className="text-xs text-[#7d5a70]">{project.date}</p>
+                      <p className="text-xs text-muted">{project.date}</p>
                       <p className="pt-1 text-sm font-semibold text-[#8e5a72] transition group-hover:text-[#b76487]">
                         شوفي التفاصيل
                       </p>

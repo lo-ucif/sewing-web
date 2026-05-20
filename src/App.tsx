@@ -1,9 +1,8 @@
-﻿import React, { useMemo, useEffect, useRef, useState } from "react";
+﻿import React, { useMemo } from "react";
+import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-import Home from "./pages/Home";
-import GalleryPage from "./pages/GalleryPage";
-import ProjectDetailPage from "./pages/ProjectDetailPage";
+import { AppRoutes } from "./routes";
 import { bgIcons } from "./assets/bg-icons";
 
 type Page = "home" | "gallery" | "detail";
@@ -64,76 +63,42 @@ const BackgroundIcons: React.FC = () => {
   );
 };
 
-export const App: React.FC = () => {
-  const [page, setPage] = useState<Page>("home");
-  const [selectedId, setSelectedId] = useState<number | null>(null);
-  const isPoppingRef = useRef(false);
+const AppLayout: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const goDetail = (id: number) => {
-    setSelectedId(id);
-    setPage("detail");
-  };
+  const currentPage: Page =
+    location.pathname === "/"
+      ? "home"
+      : location.pathname === "/projects"
+        ? "gallery"
+        : location.pathname.startsWith("/projects/")
+          ? "detail"
+          : "home";
 
-  const goGallery = () => setPage("gallery");
-  const goHome = () => setPage("home");
-  const goBack = () => setPage("gallery");
-
-  useEffect(() => {
-    window.history.replaceState({ page: "home", selectedId: null }, "");
-
-    const onPopState = (event: PopStateEvent) => {
-      const state = event.state as {
-        page?: Page;
-        selectedId?: number | null;
-      } | null;
-      isPoppingRef.current = true;
-
-      if (state?.page === "detail" && typeof state.selectedId === "number") {
-        setSelectedId(state.selectedId);
-        setPage("detail");
-        return;
-      }
-
-      if (state?.page === "gallery") {
-        setPage("gallery");
-        return;
-      }
-
-      setSelectedId(null);
-      setPage("home");
-    };
-
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
-
-  useEffect(() => {
-    if (isPoppingRef.current) {
-      isPoppingRef.current = false;
-      return;
-    }
-
-    window.history.pushState({ page, selectedId }, "");
-  }, [page, selectedId]);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [page, selectedId]);
+  const goHome = () => navigate("/");
+  const goGallery = () => navigate("/projects");
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[radial-gradient(circle_at_top_left,rgba(249,220,231,0.24),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(229,206,255,0.24),transparent_30%),#fff7f8] text-foreground select-text">
       <BackgroundIcons />
-      <Navbar currentPage={page} onGoHome={goHome} onGoGallery={goGallery} />
+      <Navbar
+        currentPage={currentPage}
+        onGoHome={goHome}
+        onGoGallery={goGallery}
+      />
       <main className="relative flex-1 overflow-hidden">
-        {page === "home" && <Home onGoGallery={goGallery} />}
-        {page === "gallery" && <GalleryPage onGoDetail={goDetail} />}
-        {page === "detail" && selectedId !== null && (
-          <ProjectDetailPage projectId={selectedId} onGoBack={goBack} />
-        )}
+        <AppRoutes />
       </main>
-
       <Footer />
     </div>
   );
 };
+
+export const App: React.FC = () => (
+  <BrowserRouter>
+    <AppLayout />
+  </BrowserRouter>
+);
+
 export default App;
