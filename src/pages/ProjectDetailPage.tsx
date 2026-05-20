@@ -78,65 +78,48 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
   const commoditiesTotal = commodities.reduce((sum, c) => sum + c.price, 0);
 
   return (
-    <div className="px-4 pb-16 pt-24 md:px-8 lg:px-12">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-          <div className="space-y-4 lg:order-1">
-            <div className="aspect-square overflow-hidden rounded-2xl bg-[#f7edf1]">
-              <img
-                src={project.images[activeImg] ?? project.coverImage}
-                alt={project.title}
-                className="h-full w-full object-cover transition-opacity duration-300"
-              />
-            </div>
-            <p className="text-center text-sm text-[#7d5a70]">{activeImg + 1} / {project.images.length}</p>
-            <div className="flex flex-wrap gap-3">
-              {project.images.slice(0, 4).map((img, index) => (
-                <button
-                  key={`${img}-${index}`}
-                  type="button"
-                  onClick={() => setActiveImg(index)}
-                  className={`aspect-square w-20 overflow-hidden rounded-lg transition hover:scale-105 ${
-                    activeImg === index ? 'ring-2 ring-[#c86c94]' : 'ring-1 ring-[#edd2dd]'
-                  }`}
-                >
-                  <img src={img} alt={`صورة ${index + 1}`} className="h-full w-full object-cover" />
-                </button>
-              ))}
-            </div>
+    <div className="px-3 pb-14 pt-24 sm:px-4 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl space-y-8 sm:space-y-10 md:space-y-12">
+        <h1 className="mx-auto max-w-[520px] text-center text-2xl font-bold leading-tight tracking-[0.36px] text-[#3d2734] sm:text-3xl md:text-4xl">
+          {project.title}
+        </h1>
+
+        <div className="mx-auto w-full max-w-[320px] space-y-3 sm:max-w-[360px] md:max-w-[380px]">
+          <div className="aspect-square overflow-hidden rounded-xl bg-[#f7edf1]">
+            <img
+              src={project.images[activeImg] ?? project.coverImage}
+              alt={project.title}
+              className="h-full w-full object-cover transition-opacity duration-300"
+            />
           </div>
+          <p className="text-center text-xs text-[#7d5a70]">{activeImg + 1} / {project.images.length}</p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            {project.images.slice(0, 5).map((img, index) => (
+              <button
+                key={`${img}-${index}`}
+                type="button"
+                onClick={() => setActiveImg(index)}
+                className={`size-[58px] overflow-hidden rounded-md transition hover:scale-105 ${
+                  activeImg === index ? 'ring-[1.5px] ring-[#c86c94]' : 'ring-[1.5px] ring-[#d5c8ce]'
+                }`}
+              >
+                <img src={img} alt={`صورة ${index + 1}`} className="h-full w-full object-cover" />
+              </button>
+            ))}
+          </div>
+        </div>
 
-          <div dir="rtl" className="space-y-6 text-right lg:order-2">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div className="space-y-6">
             <section className="border-b border-[#f0d8e3] pb-4">
-              <h1 className="text-3xl font-bold text-[#3d2734] md:text-4xl">{project.title}</h1>
-              <span className="mt-3 inline-block rounded-full bg-[#fff0f4] px-4 py-1 text-sm font-semibold text-[#b26488]">
-                {toArabicCategory(project)}
-              </span>
-            </section>
-
-            <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="text-[#5d4352]">📅 تاريخ الخياطة: {project.date}</p>
-            </section>
-
-            <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="mb-3 font-bold text-[#3d2734]">🧵 القماش المستخدم</p>
-              <div className="space-y-2 text-[#5d4352]">
-                <p>النوع: {project.specs.fabric ?? 'قماش فاخر حسب الطلب'}</p>
-                <p>الكمية: {fabricMeters} أمتار</p>
-                <p>سعر المتر: {fabricPricePerMeter} دج</p>
-                <p className="font-bold">سعر القماش الإجمالي: {fabricTotal} دج</p>
-              </div>
-            </section>
-
-            <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="mb-3 font-bold text-[#3d2734]">📦 المستلزمات المستخدمة</p>
+              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">📦 المستلزمات المستخدمة</p>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[320px] text-right text-sm">
+                <table className="w-full min-w-[340px] text-right text-sm">
                   <thead>
                     <tr className="border-b border-[#edd2dd] text-[#7d5a70]">
-                      <th className="py-2">المستلزم</th>
-                      <th className="py-2">الكمية</th>
-                      <th className="py-2">السعر</th>
+                      <th className="py-2 font-bold">المستلزم</th>
+                      <th className="py-2 font-bold">الكمية</th>
+                      <th className="py-2 font-bold">السعر</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,22 +141,53 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({ projectId, onGoBa
             </section>
 
             <section className="border-b border-[#f0d8e3] pb-4">
-              <p className="mb-3 font-bold text-[#3d2734]">ملخص مختصر</p>
-              <div className="space-y-2 text-[#5d4352]">
-                <div className="flex items-center justify-between"><span>{fabricTotal} دج</span><span>تكلفة القماش</span></div>
-                <div className="flex items-center justify-between"><span>{sewingFee} دج</span><span>أجرة الخياطة</span></div>
+              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">ملخص مختصر</p>
+              <div className="space-y-2 text-right text-[#5d4352]">
+                <div className="flex items-center justify-between">
+                  <span>{fabricTotal} دج</span>
+                  <span>تكلفة القماش</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>{sewingFee} دج</span>
+                  <span>أجرة الخياطة</span>
+                </div>
               </div>
             </section>
+          </div>
 
-            <section className="pb-4">
-              <p className="mb-3 font-bold text-[#3d2734]">📝 ملاحظات</p>
-              <p className="italic text-[#7d5a70]">{project.longDescription ?? project.description}</p>
+          <div className="space-y-6 text-right" dir="rtl">
+            <section className="border-b border-[#f0d8e3] py-4">
+              <span className="inline-block rounded-full bg-[#fff0f4] px-4 py-1 text-sm font-semibold text-[#b26488]">
+                {toArabicCategory(project)}
+              </span>
+            </section>
+
+            <section className="border-b border-[#f0d8e3] pb-4">
+              <p className="text-base text-[#5d4352]">📅 تاريخ الخياطة: {project.date}</p>
+            </section>
+
+            <section className="border-b border-[#f0d8e3] pb-4">
+              <p className="mb-3 text-base font-bold text-[#3d2734]">🧵 القماش المستخدم</p>
+              <div className="space-y-2 text-base text-[#7d5a70]">
+                <p>النوع: {project.specs.fabric ?? 'كتان بلجيكي طبيعي'}</p>
+                <p>الكمية: {fabricMeters} أمتار</p>
+                <p>سعر المتر: {fabricPricePerMeter} دج</p>
+                <p className="font-bold">سعر القماش الإجمالي: {fabricTotal} دج</p>
+              </div>
             </section>
           </div>
         </div>
+
+        <section className="space-y-3 text-right" dir="rtl">
+          <p className="text-base font-bold text-[#3d2734]">📝 ملاحظات</p>
+          <p className="max-w-[520px] text-base leading-7 text-[#7d5a70]">
+            {project.longDescription ?? project.description}
+          </p>
+        </section>
       </div>
     </div>
   );
 };
 
 export default ProjectDetailPage;
+

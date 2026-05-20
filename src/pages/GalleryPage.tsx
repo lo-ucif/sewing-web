@@ -61,10 +61,10 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
   }, [activeCategory]);
 
   return (
-    <div dir="rtl" className="px-4 pb-14 pt-24 md:px-8 lg:px-12">
+    <div dir="rtl" className="px-3 pb-12 pt-24 sm:px-4 md:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-right text-2xl font-semibold text-[#3d2734] md:text-3xl">معرض الأعمال</h1>
+          <h1 className="text-right text-xl font-semibold text-[#3d2734] sm:text-2xl md:text-3xl">معرض الأعمال</h1>
           <button
             type="button"
             onClick={onGoHome}
@@ -105,7 +105,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
           {filteredProjects.length === 0 ? (
             <p className="py-20 text-center text-lg text-[#7d5a70]">لا توجد أعمال في هذا التصنيف حالياً 🧵</p>
           ) : (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredProjects.map((project) => {
                 const numericId = projects.findIndex((item) => item.id === project.id) + 1;
                 return (
@@ -142,3 +142,4 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
 };
 
 export default GalleryPage;
+
