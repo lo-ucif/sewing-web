@@ -74,9 +74,9 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
           </button>
         </div>
 
-        <div className="sticky top-20 z-30 mb-8 border-y border-[#f0d8e3] bg-white/90 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+        <div className="sticky top-20 z-30 mb-8 border-y border-[#f0d8e3] py-3 backdrop-blur-sm">
           <div className="overflow-x-auto">
-            <div className="flex min-w-max flex-row-reverse gap-2 whitespace-nowrap">
+            <div className="mx-auto flex min-w-max justify-center gap-2 whitespace-nowrap px-1">
               {categories.map((category) => {
                 const isActive = category === activeCategory;
                 return (
@@ -101,12 +101,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
           </div>
         </div>
 
-        <div
-          key={activeCategory}
-          ref={gridRef}
-          className="animate-[fadeIn_.3s_ease]"
-          style={{ animationFillMode: 'both' }}
-        >
+        <div key={activeCategory} ref={gridRef} className="animate-[fadeIn_.3s_ease]" style={{ animationFillMode: 'both' }}>
           {filteredProjects.length === 0 ? (
             <p className="py-20 text-center text-lg text-[#7d5a70]">لا توجد أعمال في هذا التصنيف حالياً 🧵</p>
           ) : (
@@ -117,13 +112,13 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
                   <article
                     key={project.id}
                     onClick={() => onGoDetail(numericId)}
-                    className="cursor-pointer overflow-hidden rounded-2xl border border-[#f0d8e3] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                    className="group cursor-pointer overflow-hidden rounded-2xl border border-[#f0d8e3] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
                   >
                     <div className="aspect-[4/5] overflow-hidden">
                       <img
                         src={project.coverImage}
                         alt={project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
                     </div>
@@ -131,6 +126,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
                       <span className="text-xs font-semibold text-[#b26488]">{cardLabel(project)}</span>
                       <h3 className="line-clamp-2 text-base font-semibold text-[#3d2734]">{project.title}</h3>
                       <p className="text-xs text-[#7d5a70]">{project.date}</p>
+                      <p className="pt-1 text-sm font-semibold text-[#8e5a72] transition group-hover:text-[#b76487]">شوفي التفاصيل</p>
                     </div>
                   </article>
                 );
@@ -146,4 +142,3 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onGoHome, onGoDetail }) => {
 };
 
 export default GalleryPage;
-

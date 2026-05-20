@@ -100,7 +100,7 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
               أصنع ملابس تقليدية وعصرية بحب واتقان من بيتي، وأحوّل كل تصميم إلى
               قطعة مميزة تحمل طابعك الخاص.
             </p>
-            <div className="flex flex-col gap-4 sm:flex-row sm:justify-end">
+            <div className="flex flex-col items-end gap-4">
               <a
                 href="#projects"
                 className="inline-flex items-center justify-center rounded-full bg-[#c86c94] px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#b55f83]"
@@ -240,7 +240,7 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
                   <p className="text-sm leading-7 text-[#6b515f]">
                     {project.description}
                   </p>
-                  <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
+                  <div className="flex flex-col items-end gap-2">
                     <a
                       href="#contact"
                       className="text-sm font-semibold text-[#8e5a72] transition hover:text-[#b76487]"
@@ -251,7 +251,7 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
                       href="#contact"
                       className="text-sm font-semibold text-[#c86c94] transition hover:text-[#b55f83]"
                     >
-                      اطلبي الآن
+                      شوفي التفاصيل
                     </a>
                   </div>
                 </div>
@@ -384,3 +384,4 @@ export const Home: React.FC<HomeProps> = ({ onGoGallery }) => {
 };
 
 export default Home;
+

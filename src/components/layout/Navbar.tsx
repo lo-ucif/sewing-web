@@ -1,132 +1,106 @@
-import React, { useState } from "react";
-import { Menu, X, MessageCircle, Scissors } from "lucide-react";
+﻿import React, { useState } from "react";
+import { Menu, X, Scissors } from "lucide-react";
 import { useScroll } from "../../hooks/useScroll";
 
-const navLinks = [
-  { name: "الرئيسية", href: "#home" },
-  { name: "من أنا", href: "#about" },
-  { name: "تخصصاتي", href: "#skills" },
-  { name: "أعمالي", href: "#projects" },
-  { name: "تواصلي معي", href: "#contact" },
-];
+type Page = "home" | "gallery" | "detail";
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  currentPage: Page;
+  onGoHome: () => void;
+  onGoGallery: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ currentPage, onGoHome, onGoGallery }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { scrolled } = useScroll(20);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "bg-white/90 backdrop-blur-lg shadow-sm" : "bg-transparent"} border-b border-[#f3d6e0]/50`}
+      className={`fixed inset-x-0 top-0 z-50 border-b border-[#f3d6e0]/50 transition-all duration-500 motion-safe:animate-[navIn_.5s_ease] ${
+        scrolled
+          ? "bg-white/80 backdrop-blur-lg shadow-sm"
+          : "bg-transparent"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-5 md:px-10 flex items-center justify-between h-20">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-10">
         <div className="flex items-center gap-3">
-          <Scissors className="w-6 h-6 text-[#bb7c99] rotate-90" />
-          <a
-            href="#home"
-            onClick={closeMenu}
-            className="font-sans text-base md:text-lg font-semibold tracking-[0.24em] text-[#4b313d] uppercase"
+          <Scissors className={`w-6 h-6 text-[#bb7c99] transition-transform duration-500 ${scrolled ? "rotate-180" : "rotate-90"}`} />
+          <button
+            type="button"
+            onClick={() => {
+              onGoHome();
+              closeMenu();
+            }}
+            className="font-sans text-base font-semibold uppercase tracking-[0.24em] text-[#4b313d] md:text-lg"
           >
             فاطمة بوعلام
-          </a>
+          </button>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={closeMenu}
-              className="text-sm font-sans text-[#6d4d5f] hover:text-[#b76487] transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Instagram"
-            className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+        <div className="hidden items-center gap-8 md:flex">
+          <button
+            type="button"
+            onClick={() => {
+              onGoHome();
+              closeMenu();
+            }}
+            className={`text-sm font-sans transition-colors ${
+              currentPage === "home" ? "text-[#b76487]" : "text-[#6d4d5f] hover:text-[#b76487]"
+            }`}
           >
-            <span className="text-base">📸</span>
-          </a>
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Facebook"
-            className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
+            الرئيسية
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onGoGallery();
+              closeMenu();
+            }}
+            className={`text-sm font-sans transition-colors ${
+              currentPage !== "home" ? "text-[#b76487]" : "text-[#6d4d5f] hover:text-[#b76487]"
+            }`}
           >
-            <span className="text-base">📘</span>
-          </a>
-          <a
-            href="https://wa.me/212600000000"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="WhatsApp"
-            className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
-          >
-            <MessageCircle className="w-4 h-4" />
-          </a>
+            معرض الأعمال
+          </button>
         </div>
 
         <button
-          onClick={toggleMenu}
-          className="md:hidden p-2 text-[#6d4d5f] hover:text-[#b76487] transition-colors"
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="p-2 text-[#6d4d5f] transition-colors hover:text-[#b76487] md:hidden"
           aria-label="Toggle menu"
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      <div
-        className={`md:hidden bg-white/95 border-t border-[#f3d6e0]/50 transition-all duration-300 overflow-hidden ${isOpen ? "max-h-96" : "max-h-0"}`}
-      >
-        <div className="px-5 pb-6 pt-4 space-y-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={closeMenu}
-              className="block text-right text-base font-sans text-[#5e4152] hover:text-[#b76487] transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
-          <div className="flex items-center justify-between gap-3 mt-3">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
-            >
-              <span className="text-base">📸</span>
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noreferrer"
-              className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
-            >
-              <span className="text-base">📘</span>
-            </a>
-            <a
-              href="https://wa.me/212600000000"
-              target="_blank"
-              rel="noreferrer"
-              className="p-2 rounded-full bg-[#fff0f4] text-[#b76487] hover:bg-[#f7dce5] transition-colors"
-            >
-              <MessageCircle className="w-5 h-5" />
-            </a>
-          </div>
+      <div className={`overflow-hidden border-t border-[#f3d6e0]/50 bg-white/95 transition-all duration-300 md:hidden ${isOpen ? "max-h-40" : "max-h-0"}`}>
+        <div className="space-y-4 px-5 pb-6 pt-4">
+          <button
+            type="button"
+            onClick={() => {
+              onGoHome();
+              closeMenu();
+            }}
+            className="block w-full text-right text-base font-sans text-[#5e4152] transition-colors hover:text-[#b76487]"
+          >
+            الرئيسية
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onGoGallery();
+              closeMenu();
+            }}
+            className="block w-full text-right text-base font-sans text-[#5e4152] transition-colors hover:text-[#b76487]"
+          >
+            معرض الأعمال
+          </button>
         </div>
       </div>
+
+      <style>{`@keyframes navIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </nav>
   );
 };
