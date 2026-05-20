@@ -87,6 +87,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
 
   const fabricTotal = fabricMeters * fabricPricePerMeter;
   const commoditiesTotal = commodities.reduce((sum, c) => sum + c.price, 0);
+  const grandTotal = fabricTotal + sewingFee + commoditiesTotal;
 
   return (
     <div className="px-3 pb-14 pt-24 sm:px-4 md:px-8 lg:px-12">
@@ -169,12 +170,20 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({
               </p>
               <div className="space-y-2 text-right text-[#5d4352]">
                 <div className="flex items-center justify-between">
-                  <span>{fabricTotal} دج</span>
-                  <span>تكلفة القماش</span>
+                  <span className="text-[#5d4352]">تكلفة القماش</span>
+                  <span className="font-medium">{fabricTotal} دج</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>{sewingFee} دج</span>
-                  <span>أجرة الخياطة</span>
+                  <span className="text-[#5d4352]">أجرة الخياطة</span>
+                  <span className="font-medium">{sewingFee} دج</span>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t border-[#f0d8e3] mt-2">
+                  <span className="font-bold text-[#3d2734]">
+                    السعر الإجمالي
+                  </span>
+                  <span className="font-bold text-[#3d2734]">
+                    {grandTotal} دج
+                  </span>
                 </div>
               </div>
             </section>
