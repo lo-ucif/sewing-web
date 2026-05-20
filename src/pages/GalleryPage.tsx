@@ -41,6 +41,7 @@ const GalleryPage: React.FC = () => {
     const params = new URLSearchParams(location.search);
     const category = params.get("category") as GalleryCategory | null;
     if (category && categories.includes(category)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveCategory(category);
     }
   }, [location.search]);
