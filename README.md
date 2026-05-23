@@ -1,73 +1,46 @@
-# React + TypeScript + Vite
+# Maison de Couture - أم وائل 🧵
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, modern web platform designed for **Um Wael (أم وائل)**, a professional home-based tailor in Algeria. This project transforms the traditional tailoring experience into an elegant digital atelier, showcasing high-end traditional and modern Algerian fashion.
 
-Currently, two official plugins are available:
+## ✨ Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The website serves as a luxury portfolio and contact hub, replacing cluttered chat messages and static PDFs with a high-performance, interactive experience. It is built to highlight the artistry of bespoke tailoring, from hand-embroidered Abayas to traditional Karakou and modern evening wear.
 
-## React Compiler
+### Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **🎬 Sophisticated Animations**: Powered by **Framer Motion**, the site features staggered entrance effects, smooth scroll-triggered reveals, and a polished "Swipe Down" indicator for enhanced user engagement.
+*   **🖼️ Rich Project Gallery**: A dynamic, category-filtered portfolio allowing users to explore different styles (Traditional, Modern, Embroidery, etc.) with detailed project views.
+*   **💎 Luxury UI/UX**: A custom-designed interface featuring a soft, feminine color palette (Pink, Gold, and Dark Brown) with responsive layouts optimized for both mobile and desktop.
+*   **📊 Detailed Specifications**: Individual project pages provide transparent details on fabric types, sewing dates, and cost breakdowns, presented in elegant, elevated cards.
+*   **📲 Direct Communication**: Streamlined contact options for the developer and the tailor, including direct WhatsApp integration and email triggers.
+*   **🌍 RTL Support**: Fully optimized for Arabic (Right-to-Left) typography and layout flow.
 
-## Expanding the ESLint configuration
+## 🚀 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+*   **Frontend**: React 18 with TypeScript
+*   **Build Tool**: Vite (for lightning-fast development)
+*   **Styling**: Tailwind CSS (for modern, utility-first design)
+*   **Animations**: Framer Motion (for hardware-accelerated transitions)
+*   **Icons**: Lucide React
+*   **Routing**: React Router DOM v6
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Development
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Setup
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run the development server: `npm run dev`
+4. Build for production: `npm run build`
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 👤 Credits
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Tailor**: أم وائل (Bespoke Algerian Fashion)
+- **Developer**: Ahmed Loucif
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+*Crafted with love and precision. ✂️✨*
