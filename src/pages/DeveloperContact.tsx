@@ -3,7 +3,7 @@ import { ExternalLink, Mail, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../components/ui/AnimatedSection";
 import { staggerContainer, staggerItem } from "../utils/animations";
-import devImg from "../assets/portfolio.png";
+import devImg from "../assets/port.png";
 
 const DEVELOPER_EMAIL = "developer@example.com"; // replace with your email
 const DEVELOPER_PORTFOLIO = "https://your-portfolio.example.com"; // replace
@@ -14,14 +14,13 @@ const DeveloperContact: React.FC = () => {
     <div dir="rtl" className="px-4 pb-16 pt-28 sm:px-8">
       <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          
           {/* Visual/Image Space */}
           <AnimatedSection animation="scaleIn" className="order-2 md:order-1">
             <div className="relative aspect-square w-full max-w-sm mx-auto overflow-hidden rounded-[40px] border-4 border-white shadow-2xl bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee]">
-              <img 
-                src={devImg} 
-                alt="Developer" 
-                className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-110" 
+              <img
+                src={devImg}
+                alt="Developer"
+                className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-110"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#c86c94]/20 to-transparent pointer-events-none" />
             </div>
@@ -34,12 +33,13 @@ const DeveloperContact: React.FC = () => {
                 التواصل مع المطوّر
               </h1>
               <p className="text-[#6b515f] text-lg leading-relaxed">
-                هل لديك فكرة مشروع أو ترغب في التعاون التقني؟ يمكنك التواصل معي مباشرة عبر القنوات التالية.
+                هل لديك فكرة مشروع أو ترغب في التعاون التقني؟ يمكنك التواصل معي
+                مباشرة عبر القنوات التالية.
               </p>
             </AnimatedSection>
 
             <AnimatedSection animation="slideUp" delay={1}>
-              <motion.div 
+              <motion.div
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible"
@@ -56,8 +56,12 @@ const DeveloperContact: React.FC = () => {
                       <Mail className="w-6 h-6" />
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-[#3d2734]">البريد الإلكتروني</p>
-                      <p className="text-xs text-[#7d5a70]">{DEVELOPER_EMAIL}</p>
+                      <p className="text-sm font-semibold text-[#3d2734]">
+                        البريد الإلكتروني
+                      </p>
+                      <p className="text-xs text-[#7d5a70]">
+                        {DEVELOPER_EMAIL}
+                      </p>
                     </div>
                   </div>
                   <ExternalLink className="w-4 h-4 text-[#7d5a70] group-hover:text-[#c86c94]" />
@@ -76,8 +80,12 @@ const DeveloperContact: React.FC = () => {
                       <MessageSquare className="w-6 h-6" />
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-[#3d2734]">واتساب</p>
-                      <p className="text-xs text-[#7d5a70]">{DEVELOPER_WHATSAPP}</p>
+                      <p className="text-sm font-semibold text-[#3d2734]">
+                        واتساب
+                      </p>
+                      <p className="text-xs text-[#7d5a70]">
+                        {DEVELOPER_WHATSAPP}
+                      </p>
                     </div>
                   </div>
                   <ExternalLink className="w-4 h-4 text-[#7d5a70] group-hover:text-[#25D366]" />
@@ -96,8 +104,12 @@ const DeveloperContact: React.FC = () => {
                       <ExternalLink className="w-6 h-6" />
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-[#3d2734]">معرض الأعمال (Portfolio)</p>
-                      <p className="text-xs text-[#7d5a70]">مشاهدة المشاريع التقنية</p>
+                      <p className="text-sm font-semibold text-[#3d2734]">
+                        معرض الأعمال (Portfolio)
+                      </p>
+                      <p className="text-xs text-[#7d5a70]">
+                        مشاهدة المشاريع التقنية
+                      </p>
                     </div>
                   </div>
                   <ExternalLink className="w-4 h-4 text-[#7d5a70] group-hover:text-[#3d2734]" />
