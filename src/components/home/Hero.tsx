@@ -1,7 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import Button from '../ui/Button';
+import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import Button from "../ui/Button";
 
 export const Hero: React.FC = () => {
   return (
@@ -20,37 +21,68 @@ export const Hero: React.FC = () => {
       {/* Hero Content */}
       <div className="relative z-10 max-w-7xl w-full mx-auto px-6 md:px-12 flex flex-col items-start text-white">
         {/* Subtle Brand Tagline */}
-        <div className="flex items-center gap-2 mb-6 animate-fade-in">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex items-center gap-2 mb-6"
+        >
           <span className="h-[1px] w-8 bg-gold" />
           <span className="text-gold text-xs tracking-[0.3em] uppercase flex items-center gap-1.5 font-medium">
             <Sparkles className="w-3 h-3" /> Haute Couture & Tailoring
           </span>
-        </div>
+        </motion.div>
 
         {/* Headline */}
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-wide mb-6 max-w-4xl">
-          Crafting <span className="italic font-light text-gold">Impeccable</span> <br />
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="font-serif text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.05] tracking-wide mb-6 max-w-4xl"
+        >
+          Crafting{" "}
+          <span className="italic font-light text-gold">Impeccable</span> <br />
           Sartorial Artistry
-        </h1>
+        </motion.h1>
 
         {/* Sub-headline */}
-        <p className="font-sans text-white/75 text-base md:text-lg lg:text-xl font-light max-w-2xl leading-relaxed mb-10">
-          We replace catalog PDFs and cluttered chat messages with an elegant digital atelier experience. Browse our bespoke garments, review custom detailing, and commission your next piece.
-        </p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="font-sans text-white/75 text-base md:text-lg lg:text-xl font-light max-w-2xl leading-relaxed mb-10"
+        >
+          We replace catalog PDFs and cluttered chat messages with an elegant
+          digital atelier experience. Browse our bespoke garments, review custom
+          detailing, and commission your next piece.
+        </motion.p>
 
         {/* CTAs */}
-        <div className="flex flex-wrap items-center gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="flex flex-wrap items-center gap-4"
+        >
           <Link to="/projects">
-            <Button variant="gold" size="lg" className="flex items-center gap-2">
+            <Button
+              variant="gold"
+              size="lg"
+              className="flex items-center gap-2"
+            >
               View Portfolio <ArrowRight className="w-4 h-4" />
             </Button>
           </Link>
           <Link to="/contact">
-            <Button variant="outline" size="lg" className="text-white border-white hover:bg-white hover:text-dark">
+            <Button
+              variant="outline"
+              size="lg"
+              className="text-white border-white hover:bg-white hover:text-dark"
+            >
               Request Bespoke Fitting
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </div>
 
       {/* Decorative vertical line */}
