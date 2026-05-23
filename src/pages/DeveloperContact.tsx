@@ -6,7 +6,6 @@ import { staggerContainer, staggerItem } from "../utils/animations";
 import devImg from "../assets/portfolio.png";
 
 const DEVELOPER_EMAIL = "developer@example.com"; // replace with your email
-const DEVELOPER_LINKEDIN = "https://www.linkedin.com/in/your-profile"; // replace
 const DEVELOPER_PORTFOLIO = "https://your-portfolio.example.com"; // replace
 const DEVELOPER_WHATSAPP = "+000000000000"; // international format, replace
 

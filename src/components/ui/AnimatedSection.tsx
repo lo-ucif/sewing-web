@@ -63,7 +63,16 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   };
 
   const variant = animationVariants[animation];
-  const MotionComponent = motion[as] as any;
+  
+  // Type-safe mapping for motion components
+  const motionComponents = {
+    div: motion.div,
+    section: motion.section,
+    article: motion.article,
+    main: motion.main,
+  };
+
+  const MotionComponent = motionComponents[as];
 
   return (
     <MotionComponent

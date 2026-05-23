@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { projects } from "../data/projects";
 import type { Project } from "../types/project";
 import AnimatedSection from "../components/ui/AnimatedSection";
-import { staggerContainer, staggerItem, scaleIn } from "../utils/animations";
+import { staggerContainer, staggerItem } from "../utils/animations";
 
 interface SupplyItem {
   item: string;
@@ -152,7 +152,7 @@ const ProjectDetailPageContent: React.FC<{
           </p>
 
           {/* Thumbnail Cards - Luxury Style */}
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
@@ -328,12 +328,14 @@ const ProjectDetailPageContent: React.FC<{
         </div>
 
         <AnimatedSection animation="slideUp">
-          <section className="space-y-3 text-right" dir="rtl">
-            <p className="text-base font-bold text-[#3d2734]">📝 ملاحظات</p>
-            <p className="max-w-130 text-base leading-7 text-muted">
-              {notesText}
-            </p>
-          </section>
+          <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white p-5 sm:p-6 shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+            <div className="text-right space-y-3" dir="rtl">
+              <p className="text-xs text-[#b26488] font-semibold uppercase tracking-widest mb-4">
+                📝 ملاحظات
+              </p>
+              <p className="text-base leading-8 text-[#6b515f]">{notesText}</p>
+            </div>
+          </div>
         </AnimatedSection>
       </div>
     </div>
