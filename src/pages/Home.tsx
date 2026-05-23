@@ -79,8 +79,8 @@ export const Home: React.FC = () => {
   const featuredProjects = galleryProjects.slice(-3);
 
   const { scrollY } = useScroll();
-  const indicatorOpacity = useTransform(scrollY, [0, 50], [1, 0]);
-  const indicatorY = useTransform(scrollY, [0, 50], [0, 20]);
+  const indicatorOpacity = useTransform(scrollY, [0, 10], [1, 0]);
+  const indicatorY = useTransform(scrollY, [0, 10], [0, 10]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
@@ -161,7 +161,7 @@ export const Home: React.FC = () => {
         {/* Scroll Indicator */}
         <motion.div 
           style={{ opacity: indicatorOpacity, y: indicatorY }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#b26488]"
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#b26488]"
         >
           <span className="text-xs font-medium uppercase tracking-widest">اسحبي للأسفل</span>
           <motion.div 

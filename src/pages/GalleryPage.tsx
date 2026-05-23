@@ -1,8 +1,11 @@
 ﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import FloatingBubble from "../components/FloatingBubble";
 import { projects } from "../data/projects";
 import type { Project } from "../types/project";
+import AnimatedSection from "../components/ui/AnimatedSection";
+import { staggerContainer, staggerItem } from "../utils/animations";
 
 type GalleryCategory =
   | "الكل"
@@ -74,29 +77,36 @@ const GalleryPage: React.FC = () => {
   return (
     <div dir="rtl" className="pb-12 pt-24">
       <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-8 lg:px-10">
-        <h1 className="mb-6 text-right text-2xl font-semibold text-[#3d2734]">
-          معرض الأعمال
-        </h1>{" "}
+        <AnimatedSection animation="slideUp">
+          <h1 className="mb-6 text-right text-2xl font-semibold text-[#3d2734]">
+            معرض الأعمال
+          </h1>
+        </AnimatedSection>
+
         <div
           key={activeCategory}
           ref={gridRef}
-          className="animate-[fadeIn_.3s_ease]"
-          style={{ animationFillMode: "both" }}
         >
           {filteredProjects.length === 0 ? (
             <p className="py-20 text-center text-lg text-muted">
               لا توجد أعمال في هذا التصنيف حالياً 🧵
             </p>
           ) : (
-            <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
               {filteredProjects.map((project) => {
                 const numericId =
                   projects.findIndex((item) => item.id === project.id) + 1;
                 return (
-                  <article
+                  <motion.article
+                    variants={staggerItem}
                     key={project.id}
                     onClick={() => navigate(`/projects/${numericId}`)}
-                    className="group overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]"
+                    className="group overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)] cursor-pointer"
                   >
                     <div className="aspect-4/5 bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee] p-2 sm:p-3 overflow-hidden">
                       <img
@@ -120,10 +130,10 @@ const GalleryPage: React.FC = () => {
                         شوفي التفاصيل
                       </p>
                     </div>
-                  </article>
+                  </motion.article>
                 );
               })}
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
@@ -139,8 +149,6 @@ const GalleryPage: React.FC = () => {
           });
         }}
       />
-
-      <style>{`@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
     </div>
   );
 };
