@@ -1,9 +1,14 @@
-﻿import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+﻿import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  animate,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const SIZE = 45;
 
-type Side = 'left' | 'right';
+type Side = "left" | "right";
 
 interface BubbleItem {
   key: string;
@@ -23,16 +28,46 @@ const CARD_PADDING = 8;
 const MAX_VISIBLE_ITEMS = 8;
 
 const MenuIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-    <line x1="4" y1="6" x2="20" y2="6" stroke="#c86c94" strokeWidth="2" strokeLinecap="round" />
-    <line x1="4" y1="12" x2="20" y2="12" stroke="#c86c94" strokeWidth="2" strokeLinecap="round" />
-    <line x1="4" y1="18" x2="14" y2="18" stroke="#c86c94" strokeWidth="2" strokeLinecap="round" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    className={className}
+    aria-hidden="true"
+  >
+    <line
+      x1="4"
+      y1="6"
+      x2="20"
+      y2="6"
+      stroke="#c86c94"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <line
+      x1="4"
+      y1="12"
+      x2="20"
+      y2="12"
+      stroke="#c86c94"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <line
+      x1="4"
+      y1="18"
+      x2="14"
+      y2="18"
+      stroke="#c86c94"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 const getSaved = (): { side: Side; y: number } => {
   try {
-    const saved = localStorage.getItem('bubble-pos');
+    const saved = localStorage.getItem("bubble-pos");
     if (saved) {
       const parsed = JSON.parse(saved) as { side: Side; y: number };
       const maxY = window.innerHeight - SIZE - 10;
@@ -42,10 +77,14 @@ const getSaved = (): { side: Side; y: number } => {
   } catch {
     // noop
   }
-  return { side: 'right', y: 100 };
+  return { side: "right", y: 100 };
 };
 
-const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => {
+const FloatingBubble = ({
+  items,
+  activeKey,
+  onSelect,
+}: FloatingBubbleProps) => {
   const initial = getSaved();
 
   const [side, setSide] = useState<Side>(initial.side);
@@ -57,40 +96,45 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
 
   const visibleCount = Math.min(items.length, MAX_VISIBLE_ITEMS);
   const cardHeight = visibleCount * ITEM_H + CARD_PADDING;
-  const hasScroll = items.length > MAX_VISIBLE_ITEMS;
 
-  const initX = initial.side === 'left' ? 10 : window.innerWidth - SIZE - 10;
+  const initX = initial.side === "left" ? 10 : window.innerWidth - SIZE - 10;
   const x = useMotionValue(initX);
   const y = useMotionValue(initial.y);
 
   const savePos = (s: Side, newY: number) => {
-    localStorage.setItem('bubble-pos', JSON.stringify({ side: s, y: newY }));
+    localStorage.setItem("bubble-pos", JSON.stringify({ side: s, y: newY }));
   };
 
   useEffect(() => {
     if (!open) return;
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       const target = e.target as Node;
-      if (!bubbleRef.current?.contains(target) && !cardRef.current?.contains(target)) {
+      if (
+        !bubbleRef.current?.contains(target) &&
+        !cardRef.current?.contains(target)
+      ) {
         setOpen(false);
       }
     };
 
     const timer = setTimeout(() => {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
     }, 50);
 
     return () => {
       clearTimeout(timer);
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [open]);
 
   const getCardPos = () => {
-    const currentX = side === 'left' ? 10 : window.innerWidth - SIZE - 10;
-    const cardX = side === 'left' ? currentX + SIZE + CARD_GAP : currentX - CARD_W - CARD_GAP;
+    const currentX = side === "left" ? 10 : window.innerWidth - SIZE - 10;
+    const cardX =
+      side === "left"
+        ? currentX + SIZE + CARD_GAP
+        : currentX - CARD_W - CARD_GAP;
     const cardY = posY + SIZE / 2 - cardHeight / 2;
     return { cardX, cardY };
   };
@@ -98,8 +142,7 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
   const { cardX, cardY } = getCardPos();
   const ballCenterY = posY + SIZE / 2 - cardHeight / 2;
 
-  const isSpecial = (label: string) =>
-    /عملي|تطبيقي|Practical|عمل/i.test(label);
+  const isSpecial = (label: string) => /عملي|تطبيقي|Practical|عمل/i.test(label);
 
   return (
     <>
@@ -114,7 +157,7 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
           right: window.innerWidth - SIZE - 10,
           bottom: window.innerHeight - SIZE - 10,
         }}
-        whileDrag={{ scale: 1.08, cursor: 'grabbing' }}
+        whileDrag={{ scale: 1.08, cursor: "grabbing" }}
         onDragStart={() => {
           dragMoved.current = false;
           if (open) setOpen(false);
@@ -127,12 +170,12 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
           const h = window.innerHeight;
           const currentX = x.get();
           const currentY = y.get();
-          const newSide: Side = currentX < w / 2 ? 'left' : 'right';
-          const snapX = newSide === 'left' ? 10 : w - SIZE - 10;
+          const newSide: Side = currentX < w / 2 ? "left" : "right";
+          const snapX = newSide === "left" ? 10 : w - SIZE - 10;
           const newY = Math.max(10, Math.min(currentY, h - SIZE - 10));
 
-          animate(x, snapX, { type: 'spring', stiffness: 400, damping: 30 });
-          animate(y, newY, { type: 'spring', stiffness: 400, damping: 30 });
+          animate(x, snapX, { type: "spring", stiffness: 400, damping: 30 });
+          animate(y, newY, { type: "spring", stiffness: 400, damping: 30 });
 
           setSide(newSide);
           setPosY(newY);
@@ -143,16 +186,16 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
           dragMoved.current = false;
         }}
         style={{
-          position: 'fixed',
+          position: "fixed",
           top: 0,
           left: 0,
           x,
           y,
           width: SIZE,
           height: SIZE,
-          touchAction: 'none',
+          touchAction: "none",
           zIndex: 9999,
-          cursor: 'grab',
+          cursor: "grab",
         }}
         className="flex select-none items-center justify-center rounded-full bg-[#FFF5F6] shadow-lg"
       >
@@ -167,14 +210,14 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
             initial={{ opacity: 0, scale: 0.85, x: cardX, y: ballCenterY }}
             animate={{ opacity: 1, scale: 1, x: cardX, y: cardY }}
             exit={{ opacity: 0, scale: 0.85, x: cardX, y: ballCenterY }}
-            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+            transition={{ type: "spring", stiffness: 380, damping: 28 }}
             style={{
-              position: 'fixed',
+              position: "fixed",
               top: 0,
               left: 0,
               width: CARD_W,
               zIndex: 9998,
-              transformOrigin: side === 'left' ? 'left center' : 'right center',
+              transformOrigin: side === "left" ? "left center" : "right center",
             }}
             className="overflow-hidden rounded-2xl bg-[#FFF5F6] shadow-xl"
           >
@@ -182,8 +225,8 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
               className="overflow-y-auto"
               style={{
                 maxHeight: visibleCount * ITEM_H,
-                scrollbarWidth: 'thin',
-                scrollbarColor: '#c86c94 transparent',
+                scrollbarWidth: "thin",
+                scrollbarColor: "#c86c94 transparent",
               }}
             >
               {items.map((item, i) => {
@@ -192,11 +235,11 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
                 return (
                   <motion.button
                     key={item.key}
-                    initial={{ opacity: 0, x: side === 'left' ? -10 : 10 }}
+                    initial={{ opacity: 0, x: side === "left" ? -10 : 10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{
                       delay: i * 0.04,
-                      type: 'spring',
+                      type: "spring",
                       stiffness: 350,
                       damping: 28,
                     }}
@@ -205,15 +248,15 @@ const FloatingBubble = ({ items, activeKey, onSelect }: FloatingBubbleProps) => 
                       setOpen(false);
                     }}
                     whileHover={{
-                      backgroundColor: 'rgba(200,108,148,0.08)',
+                      backgroundColor: "rgba(200,108,148,0.08)",
                     }}
                     whileTap={{ scale: 0.97 }}
                     className={`flex h-[44px] w-full items-center justify-between gap-2 border-b border-[#f0d8e3]/50 px-3 text-right text-sm transition-colors duration-150 ${
                       isActive
-                        ? 'bg-[#C86C94]/10 font-bold text-[#C86C94]'
+                        ? "bg-[#C86C94]/10 font-bold text-[#C86C94]"
                         : special
-                          ? 'text-[#C86C94]'
-                          : 'text-[#111111]'
+                          ? "text-[#C86C94]"
+                          : "text-[#111111]"
                     }`}
                   >
                     <span className="flex-1 truncate">{item.label}</span>
