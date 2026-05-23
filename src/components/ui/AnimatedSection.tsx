@@ -27,13 +27,15 @@ interface AnimatedSectionProps {
   margin?: string;
   once?: boolean;
   delay?: number;
+  id?: string;
+  as?: "div" | "section" | "article" | "main";
 }
 
 /**
  * Wrapper component that adds scroll-triggered animations to any section.
  *
  * Usage:
- * <AnimatedSection animation="slideUp">
+ * <AnimatedSection animation="slideUp" as="section" id="about">
  *   <h2>Your Content Here</h2>
  * </AnimatedSection>
  */
@@ -45,6 +47,8 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   margin = "50px",
   once = true,
   delay = 0,
+  id,
+  as = "div",
 }) => {
   const { ref, isInView } = useInView({ threshold, margin, once });
 
@@ -59,10 +63,12 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   };
 
   const variant = animationVariants[animation];
+  const MotionComponent = motion[as] as any;
 
   return (
-    <motion.div
+    <MotionComponent
       ref={ref}
+      id={id}
       variants={variant}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
@@ -70,7 +76,7 @@ export const AnimatedSection: React.FC<AnimatedSectionProps> = ({
       className={className}
     >
       {children}
-    </motion.div>
+    </MotionComponent>
   );
 };
 

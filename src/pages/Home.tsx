@@ -1,7 +1,14 @@
 ﻿import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { projects as galleryProjects } from "../data/projects";
 import img01 from "../assets/what-is-sewing-0.webp";
+import AnimatedSection from "../components/ui/AnimatedSection";
+import {
+  staggerContainer,
+  staggerItem,
+  scaleIn,
+} from "../utils/animations";
 
 const PhoneIcon = () => (
   <svg
@@ -71,6 +78,10 @@ export const Home: React.FC = () => {
   const goGallery = () => navigate("/projects");
   const featuredProjects = galleryProjects.slice(-3);
 
+  const { scrollY } = useScroll();
+  const indicatorOpacity = useTransform(scrollY, [0, 50], [1, 0]);
+  const indicatorY = useTransform(scrollY, [0, 50], [0, 20]);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, []);
@@ -78,19 +89,36 @@ export const Home: React.FC = () => {
   return (
     <div className="relative overflow-hidden pt-24 text-[#4b313d]" dir="rtl">
       <section id="home" className="px-5 pb-10 pt-2 md:px-10 lg:px-14 lg:pt-6">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 lg:min-h-[calc(100vh-8rem)] lg:grid-cols-2 lg:gap-10">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 lg:min-h-[calc(100vh-8rem)] lg:grid-cols-2 lg:gap-10"
+        >
           <div className="order-2 space-y-6 text-right lg:order-1">
-            <span className="inline-flex rounded-full border border-[#f4d5e0] bg-[#fff1f7] px-4 py-2 text-sm font-medium text-[#9f6b86] shadow-sm">
+            <motion.span
+              variants={staggerItem}
+              className="inline-flex rounded-full border border-[#f4d5e0] bg-[#fff1f7] px-4 py-2 text-sm font-medium text-[#9f6b86] shadow-sm"
+            >
               🧵 خياطة منزلية | الجزائر
-            </span>
-            <h1 className="text-4xl font-semibold leading-tight tracking-tight text-[#3d2734] sm:text-5xl lg:text-7xl lg:tracking-[-1.8px]">
+            </motion.span>
+            <motion.h1
+              variants={staggerItem}
+              className="text-4xl font-semibold leading-tight tracking-tight text-[#3d2734] sm:text-5xl lg:text-7xl lg:tracking-[-1.8px]"
+            >
               أم وائل
-            </h1>
-            <p className="max-w-xl text-base leading-8 text-[#6b515f] sm:text-lg sm:leading-9 lg:text-xl">
+            </motion.h1>
+            <motion.p
+              variants={staggerItem}
+              className="max-w-xl text-base leading-8 text-[#6b515f] sm:text-lg sm:leading-9 lg:text-xl"
+            >
               أصنع ملابس تقليدية وعصرية بحب واتقان من بيتي، وأحوّل كل تصميم إلى
               قطعة مميزة تحمل طابعك الخاص.
-            </p>
-            <div className="flex flex-wrap items-center justify-end gap-3 sm:gap-5">
+            </motion.p>
+            <motion.div
+              variants={staggerItem}
+              className="flex flex-wrap items-center justify-end gap-3 sm:gap-5"
+            >
               <a
                 href="#contact"
                 className="inline-flex h-11 items-center justify-center rounded-full border border-[#c86c94] bg-white px-6 text-sm font-semibold text-[#c86c94] transition hover:border-[#b55f83] hover:text-[#b55f83]"
@@ -104,10 +132,13 @@ export const Home: React.FC = () => {
               >
                 شوفي أعمالي
               </button>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="order-1 mx-auto flex w-full max-w-md items-center justify-center lg:order-2">
+          <motion.div
+            variants={scaleIn}
+            className="order-1 mx-auto flex w-full max-w-md items-center justify-center lg:order-2"
+          >
             <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px] mx-auto">
               <div className="absolute -right-8 top-14 h-36 w-36 rounded-full bg-[#ffeaf2] opacity-70 blur-3xl sm:h-48 sm:w-48" />
               <div className="absolute -left-6 bottom-10 h-28 w-28 rounded-full bg-[#f6e2f0] opacity-80 blur-3xl sm:h-36 sm:w-36" />
@@ -124,14 +155,30 @@ export const Home: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          style={{ opacity: indicatorOpacity, y: indicatorY }}
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#b26488]"
+        >
+          <span className="text-xs font-medium uppercase tracking-widest">اسحبي للأسفل</span>
+          <motion.div 
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1 h-6 bg-[#b26488]/30 rounded-full relative overflow-hidden"
+          >
+            <motion.div 
+              animate={{ y: [-24, 24] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+              className="absolute top-0 left-0 w-full h-1/2 bg-[#b26488]"
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
-      <section
-        id="about"
-        className="border-t border-[#f0d8e3] px-5 py-16 md:px-10 lg:px-14"
-      >
+      <AnimatedSection as="section" id="about" className="border-t border-[#f0d8e3] px-5 py-16 md:px-10 lg:px-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-right">
             <span className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b26488]">
@@ -164,9 +211,9 @@ export const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section id="skills" className="px-5 py-16 md:px-10 lg:px-14">
+      <AnimatedSection as="section" id="skills" animation="slideUp" className="px-5 py-16 md:px-10 lg:px-14">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-right">
             <span className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b26488]">
@@ -199,10 +246,12 @@ export const Home: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section
+      <AnimatedSection
+        as="section"
         id="projects"
+        animation="slideUp"
         className="border-t border-[#f0d8e3] px-5 py-16 md:px-10 lg:px-14"
       >
         <div className="mx-auto max-w-6xl">
@@ -261,9 +310,9 @@ export const Home: React.FC = () => {
             </button>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section id="journey" className="px-5 py-16 md:px-10 lg:px-14">
+      <AnimatedSection as="section" id="journey" animation="slideUp" className="px-5 py-16 md:px-10 lg:px-14">
         <div className="mx-auto max-w-4xl">
           <div className="mb-10 text-right">
             <span className="text-sm font-semibold uppercase tracking-[0.3em] text-[#b26488]">
@@ -295,10 +344,12 @@ export const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      <section
+      <AnimatedSection
+        as="section"
         id="contact"
+        animation="slideUp"
         className="border-t border-[#f0d8e3] px-5 py-16 md:px-10 lg:px-14"
       >
         <div className="mx-auto max-w-6xl">
@@ -339,7 +390,7 @@ export const Home: React.FC = () => {
             </a>
           </div>
         </div>
-      </section>
+      </AnimatedSection>
     </div>
   );
 };
