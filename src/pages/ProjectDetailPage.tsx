@@ -127,128 +127,180 @@ const ProjectDetailPageContent: React.FC<{
           {project.title}
         </h1>
 
-        <div className="mx-auto w-full max-w-80 space-y-3 sm:max-w-90 md:max-w-95">
-          <div className="w-full aspect-square overflow-hidden rounded-2xl bg-[#f7edf1]">
-            <img
-              src={project.images[activeImg] ?? project.coverImage}
-              alt={project.title}
-              className="w-full h-full object-cover object-center transition-opacity duration-300"
-            />
+        <div className="mx-auto w-full max-w-95 space-y-4">
+          {/* Main Image Card - Luxury Home Style */}
+          <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+            <div className="aspect-square bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee] p-2 sm:p-3">
+              <img
+                src={project.images[activeImg] ?? project.coverImage}
+                alt={project.title}
+                className="h-full w-full rounded-3xl object-cover shadow-inner shadow-[#e5b2cb]/40 transition-transform duration-500 hover:scale-105"
+              />
+            </div>
           </div>
-          <p className="text-center text-xs text-muted">
+
+          {/* Image Counter */}
+          <p className="text-center text-xs text-[#7d5a70] font-semibold">
             {activeImg + 1} / {project.images.length}
           </p>
-          <div className="flex gap-2 mt-3">
+
+          {/* Thumbnail Cards - Luxury Style */}
+          <div className="flex gap-2 mt-3 sm:gap-3 justify-center flex-wrap">
             {project.images.map((img, index) => (
-              <div
+              <button
                 key={`${img}-${index}`}
                 onClick={() => setActiveImg(index)}
-                className={`w-16 h-16 rounded-xl overflow-hidden cursor-pointer shrink-0 transition-all duration-200 ${
+                type="button"
+                className={`relative shrink-0 overflow-hidden rounded-2xl transition-all duration-300 aspect-square w-14 sm:w-16 border-2 ${
                   activeImg === index
-                    ? "ring-2 ring-offset-2 ring-current opacity-100"
-                    : "opacity-60 hover:opacity-90"
+                    ? "border-[#c86c94] shadow-md"
+                    : "border-[#f2dbe2] hover:border-[#d4a5c3]"
                 }`}
               >
                 <img
                   src={img}
-                  alt=""
-                  className="w-full h-full object-cover object-center"
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`w-full h-full object-cover object-center transition-all duration-300 ${
+                    activeImg === index
+                      ? "brightness-100 scale-100"
+                      : "brightness-90 hover:brightness-100 hover:scale-105"
+                  }`}
                 />
-              </div>
+              </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          <div className="space-y-6 text-right" dir="rtl">
-            <section className="border-b border-border py-4">
-              <span className="inline-block rounded-full bg-[#fff0f4] px-4 py-1 text-sm font-semibold text-[#b26488]">
+        <div className="grid grid-cols-1 gap-6 lg:gap-8 lg:grid-cols-2">
+          {/* Left Column - Project Information Cards */}
+          <div className="space-y-4">
+            {/* Category Card */}
+            <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white p-5 sm:p-6 shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+              <span className="inline-block rounded-full bg-[#fff0f4] px-4 py-2 text-sm font-semibold text-[#b26488]">
                 {toArabicCategory(project)}
               </span>
-            </section>
+            </div>
 
-            <section className="border-b border-border pb-4">
-              <p className="text-base text-[#5d4352]">
-                📅 تاريخ الخياطة: {sewingDateText}
-              </p>
-            </section>
-
-            <section className="border-b border-border pb-4">
-              <p className="mb-3 text-base font-bold text-[#3d2734]">
-                🧵 القماش المستخدم
-              </p>
-              <div className="space-y-2 text-base text-muted">
-                <p>النوع: {fabricInfoType}</p>
-                <p>الكمية: {fabricMetersText}</p>
-                <p>سعر المتر: {fabricPricePerMeterText}</p>
-                <p className="font-bold">
-                  سعر القماش الإجمالي: {fabricTotalText}
+            {/* Sewing Date Card */}
+            <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white p-5 sm:p-6 shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+              <div className="text-right" dir="rtl">
+                <p className="text-xs text-[#7d5a70] font-semibold uppercase tracking-widest">
+                  📅 تاريخ الخياطة
+                </p>
+                <p className="text-base md:text-lg font-semibold text-[#3d2734] mt-2">
+                  {sewingDateText}
                 </p>
               </div>
-            </section>
+            </div>
+
+            {/* Fabric Information Card */}
+            <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white p-5 sm:p-6 shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+              <div className="text-right space-y-3" dir="rtl">
+                <p className="text-xs text-[#7d5a70] font-semibold uppercase tracking-widest mb-3">
+                  🧵 القماش المستخدم
+                </p>
+                <div className="space-y-2 text-sm text-[#6b515f]">
+                  <div className="flex items-center justify-between">
+                    <span>النوع:</span>
+                    <span className="font-semibold text-[#3d2734]">
+                      {fabricInfoType}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>الكمية:</span>
+                    <span className="font-semibold text-[#3d2734]">
+                      {fabricMetersText}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>سعر المتر:</span>
+                    <span className="font-semibold text-[#3d2734]">
+                      {fabricPricePerMeterText}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-[#f2dbe2]">
+                    <span className="font-bold">الإجمالي:</span>
+                    <span className="font-bold text-[#b26488]">
+                      {fabricTotalText}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-6">
-            <section className="border-b border-border pb-4">
-              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
-                📦 المستلزمات المستخدمة
-              </p>
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-85 text-right text-sm">
-                  <thead>
-                    <tr className="border-b border-divider text-muted">
-                      <th className="py-2 font-bold">المستلزم</th>
-                      <th className="py-2 font-bold">الكمية</th>
-                      <th className="py-2 font-bold">السعر</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {supplies.map((item) => (
-                      <tr
-                        key={item.item}
-                        className="border-b border-[#f6e7ed] text-[#5d4352]"
-                      >
-                        <td className="py-2">{item.item}</td>
-                        <td className="py-2">{item.quantity}</td>
-                        <td className="py-2">{item.price}</td>
+          {/* Right Column - Supplies and Summary Cards */}
+          <div className="space-y-4">
+            {/* Supplies Card */}
+            <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white p-5 sm:p-6 shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+              <div className="text-right" dir="rtl">
+                <p className="mb-4 text-xs text-[#7d5a70] font-semibold uppercase tracking-widest">
+                  📦 المستلزمات المستخدمة
+                </p>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-right text-xs sm:text-sm">
+                    <thead>
+                      <tr className="border-b border-[#f2dbe2] text-[#7d5a70] font-semibold">
+                        <th className="py-2">المستلزم</th>
+                        <th className="py-2">الكمية</th>
+                        <th className="py-2">السعر</th>
                       </tr>
-                    ))}
-                    <tr className="font-bold text-[#3d2734]">
-                      <td className="py-2">الإجمالي</td>
-                      <td className="py-2" />
-                      <td className="py-2">
-                        {project.suppliesTotal ??
-                          formatPrice(suppliesTotalNumber)}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {supplies.map((item) => (
+                        <tr
+                          key={item.item}
+                          className="border-b border-[#f2dbe2] text-[#6b515f] hover:bg-[#fff5f8] transition-colors"
+                        >
+                          <td className="py-2">{item.item}</td>
+                          <td className="py-2">{item.quantity}</td>
+                          <td className="py-2">{item.price}</td>
+                        </tr>
+                      ))}
+                      <tr className="font-bold text-[#3d2734] bg-[#fff5f8]">
+                        <td className="py-2">الإجمالي</td>
+                        <td className="py-2" />
+                        <td className="py-2">
+                          {project.suppliesTotal ??
+                            formatPrice(suppliesTotalNumber)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </section>
+            </div>
 
-            <section className="border-b border-border pb-4">
-              <p className="mb-3 text-right text-base font-bold text-[#3d2734]">
-                ملخص مختصر
-              </p>
-              <div className="space-y-2 text-right text-[#5d4352]">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5d4352]">تكلفة القماش</span>
-                  <span className="font-medium">{fabricCostText}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5d4352]">أجرة الخياطة</span>
-                  <span className="font-medium">{sewingCostText}</span>
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t border-border mt-2">
-                  <span className="font-bold text-[#3d2734]">
-                    السعر الإجمالي
-                  </span>
-                  <span className="font-bold text-[#3d2734]">
-                    {totalCostText}
-                  </span>
+            {/* Cost Summary Card */}
+            <div className="overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white p-5 sm:p-6 shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]">
+              <div className="text-right space-y-3" dir="rtl">
+                <p className="text-xs text-[#b26488] font-semibold uppercase tracking-widest mb-4">
+                  💰 ملخص التكاليف
+                </p>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#6b515f]">تكلفة القماش</span>
+                    <span className="font-semibold text-[#3d2734]">
+                      {fabricCostText}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#6b515f]">أجرة الخياطة</span>
+                    <span className="font-semibold text-[#3d2734]">
+                      {sewingCostText}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-[#f2dbe2]">
+                    <span className="font-bold text-[#3d2734]">
+                      السعر الإجمالي
+                    </span>
+                    <span className="font-bold text-lg text-[#b26488]">
+                      {totalCostText}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </section>
+            </div>
           </div>
         </div>
 

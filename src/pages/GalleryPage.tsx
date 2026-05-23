@@ -96,25 +96,27 @@ const GalleryPage: React.FC = () => {
                   <article
                     key={project.id}
                     onClick={() => navigate(`/projects/${numericId}`)}
-                    className="group cursor-pointer overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                    className="group overflow-hidden rounded-[28px] border border-[#f2dbe2] bg-white shadow-[0_20px_60px_rgba(224,179,200,0.1)] transition hover:-translate-y-1 hover:shadow-[0_30px_70px_rgba(224,179,200,0.16)]"
                   >
-                    <div className="aspect-4/5 overflow-hidden">
+                    <div className="aspect-4/5 bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee] p-2 sm:p-3 overflow-hidden">
                       <img
                         src={project.coverImage}
                         alt={project.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full rounded-3xl object-cover shadow-inner shadow-[#e5b2cb]/40 transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
                     </div>
-                    <div className="space-y-2 p-4 text-right">
+                    <div className="space-y-3 p-5 text-right sm:space-y-4 sm:p-6">
                       <span className="text-xs font-semibold text-[#b26488]">
                         {cardLabel(project)}
                       </span>
-                      <h3 className="line-clamp-2 text-base font-semibold text-[#3d2734]">
+                      <h3 className="line-clamp-2 text-lg font-semibold text-[#3d2734] sm:text-xl">
                         {project.title}
                       </h3>
-                      <p className="text-xs text-muted">{project.date}</p>
-                      <p className="pt-1 text-sm font-semibold text-[#8e5a72] transition group-hover:text-[#b76487]">
+                      <p className="text-sm leading-7 text-[#6b515f]">
+                        {project.date}
+                      </p>
+                      <p className="pt-1 text-sm font-semibold text-[#8e5a72] transition hover:text-[#b76487]">
                         شوفي التفاصيل
                       </p>
                     </div>
