@@ -130,6 +130,7 @@ const GalleryPage: React.FC = () => {
 
       <FloatingBubble
         items={bubbleItems}
+        activeKey={activeCategory}
         onSelect={(key) => {
           setActiveCategory(key as GalleryCategory);
           gridRef.current?.scrollIntoView({
