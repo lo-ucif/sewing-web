@@ -3,7 +3,7 @@ import { ExternalLink, Mail, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../components/ui/AnimatedSection";
 import { staggerContainer, staggerItem } from "../utils/animations";
-import devImg from "../assets/port.png";
+import devImg from "../assets/portfolio img.webp";
 
 const DEVELOPER_EMAIL = "developer@example.com"; // replace with your email
 const DEVELOPER_PORTFOLIO = "https://your-portfolio.example.com"; // replace
