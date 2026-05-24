@@ -3,7 +3,6 @@ import { ExternalLink, Mail, MessageSquare } from "lucide-react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../components/ui/AnimatedSection";
 import { staggerContainer, staggerItem } from "../utils/animations";
-import devImg from "../assets/portfolio img.webp";
 
 const DEVELOPER_EMAIL = "developer@example.com"; // replace with your email
 const DEVELOPER_PORTFOLIO = "https://your-portfolio.example.com"; // replace
@@ -14,18 +13,6 @@ const DeveloperContact: React.FC = () => {
     <div dir="rtl" className="px-4 pb-16 pt-28 sm:px-8">
       <div className="mx-auto max-w-4xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          {/* Visual/Image Space */}
-          <AnimatedSection animation="scaleIn" className="order-2 md:order-1">
-            <div className="relative aspect-square w-full max-w-sm mx-auto overflow-hidden rounded-[40px] border-4 border-white shadow-2xl bg-gradient-to-br from-[#fdeef5] via-[#fff2f7] to-[#f9e7ee]">
-              <img
-                src={devImg}
-                alt="Developer"
-                className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#c86c94]/20 to-transparent pointer-events-none" />
-            </div>
-          </AnimatedSection>
-
           {/* Contact Information */}
           <div className="order-1 md:order-2 space-y-8">
             <AnimatedSection animation="slideDown">

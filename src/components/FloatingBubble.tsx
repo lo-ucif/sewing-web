@@ -135,7 +135,11 @@ const FloatingBubble = ({
       side === "left"
         ? currentX + SIZE + CARD_GAP
         : currentX - CARD_W - CARD_GAP;
-    const cardY = posY + SIZE / 2 - cardHeight / 2;
+    
+    // Clamp cardY within viewport boundaries
+    const rawCardY = posY + SIZE / 2 - cardHeight / 2;
+    const cardY = Math.max(10, Math.min(rawCardY, window.innerHeight - cardHeight - 10));
+    
     return { cardX, cardY };
   };
 
@@ -146,6 +150,10 @@ const FloatingBubble = ({
 
   return (
     <>
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
       <motion.div
         ref={bubbleRef}
         drag
@@ -222,11 +230,9 @@ const FloatingBubble = ({
             className="overflow-hidden rounded-2xl bg-[#FFF5F6] shadow-xl"
           >
             <div
-              className="overflow-y-auto"
+              className={`no-scrollbar ${items.length > MAX_VISIBLE_ITEMS ? "overflow-y-auto" : "overflow-hidden"}`}
               style={{
-                maxHeight: visibleCount * ITEM_H,
-                scrollbarWidth: "thin",
-                scrollbarColor: "#c86c94 transparent",
+                maxHeight: cardHeight,
               }}
             >
               {items.map((item, i) => {
@@ -251,13 +257,13 @@ const FloatingBubble = ({
                       backgroundColor: "rgba(200,108,148,0.08)",
                     }}
                     whileTap={{ scale: 0.97 }}
-                    className={`flex h-[44px] w-full items-center justify-between gap-2 border-b border-[#f0d8e3]/50 px-3 text-right text-sm transition-colors duration-150 ${
+                    className={`flex h-[44px] w-full outline-none items-center justify-between gap-2 border-b border-[#f0d8e3]/50 px-4 text-right text-sm transition-colors duration-150 ${
                       isActive
                         ? "bg-[#C86C94]/10 font-bold text-[#C86C94]"
                         : special
                           ? "text-[#C86C94]"
                           : "text-[#111111]"
-                    }`}
+                    } ${i === items.length - 1 ? "border-b-0" : ""}`}
                   >
                     <span className="flex-1 truncate">{item.label}</span>
                     <span className="shrink-0 text-xs text-[#C86C94]/40">
